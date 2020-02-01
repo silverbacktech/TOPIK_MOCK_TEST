@@ -22,7 +22,7 @@ class CreateStudentResultsTable extends Migration
         });
 
         Schema::table('student_results', function (Blueprint $table){
-            $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('student_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
         });
 
         Schema::table('student_results', function (Blueprint $table){
