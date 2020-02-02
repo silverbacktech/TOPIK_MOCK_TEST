@@ -12,7 +12,7 @@ class ListeningOptions extends Model
     public function listeningAnswer(){
     	return $this->hasOne('App\ListeningAnswer');
     }
-    public funtion listeningSubmittedAnswer(){
+    public function listeningSubmittedAnswer(){
     	return $this->hasOne('App\ListeningSubmittedAnswers');
     }
 }

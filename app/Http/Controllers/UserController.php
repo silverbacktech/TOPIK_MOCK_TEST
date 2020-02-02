@@ -19,7 +19,7 @@ class UserController extends Controller
 
     	if($user!=null){
     		if(!Hash::check($request->password,$user->password)){
-    			return response(['status'=>false,'error'=>'Invalid username or password']);
+    			return response(['status'=>false,'message'=>'Invalid username or password']);
     		}
     		else{
     			$accessToken=$user->createToken('authToken')->accessToken;
@@ -27,7 +27,7 @@ class UserController extends Controller
     		}
     	}
     	else{
-    		return response(['status'=>false,'error'=>'No such admin or student found. Please try again']);
+    		return response(['status'=>false,'message'=>'No such admin or student found. Please try again']);
     	}
 
     }
@@ -66,5 +66,48 @@ class UserController extends Controller
     		return response(['status'=>false,'message'=>'Sorry unauthorized access']);
     	}
     }
-    
+	
+	public function edit(Request $request,$id){
+		$registerData=$request->validate([
+    		'name'=>'required',
+    		'email'=>'required',
+    		'password'=>'required',
+    		'role'=>'required',
+    	]);
+
+		$user = User::find($id);
+		$admin = auth()->guard('api')->user();
+		if($admin->role=="admin"){
+    		$password=bcrypt($request->input('password'));
+			$role=strtolower($request->input('role'));
+			if ($role=='admin'|| $role == 'student'){
+				$user->name = $request->input('name');
+				$user->email = $request->input('email');
+				$user->password = $password;
+				$user->role = $role;
+				$user->save();
+				return response(['status'=>true, 'message'=>'Data Successfully Updated']);
+			}
+			else{
+				return response(['status'=>false, 'message'=>'Only student or admin can be added']);
+			}
+		}
+		else{
+			return response(['status'=>false, 'message'=>'Sorry UnAuthorized Access']);
+		}
+	}
+
+	public function delete(Request $request, $id){
+		$user = User::find($id);
+		$admin = auth()->guard('api')->user();
+		if ($admin->role=="admin"){
+			$user -> delete();
+			return response(['status'=> true, 'message'=> 'User successfully deleted']);
+		}
+		else{
+			return response(['status'=> false, 'message'=> 'Sorry unauthorized access']);
+		}
+	}
+
+
 }
