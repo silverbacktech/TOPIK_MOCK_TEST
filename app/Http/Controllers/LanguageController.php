@@ -16,17 +16,12 @@ class LanguageController extends Controller
 
 		$admin = auth()->guard('api')->user();
         if ($admin->role == 'admin'){
-           $newLanguageName = strtolower($request->input('language_name'));
-           if ($newLanguageName == 'korean' || $newLanguageName == 'japanese'){
-               $new_language = new Languages();
-               $new_language->language_name = $newLanguageName;
-               $new_language->save();
-               return response(['status'=>true, 'message'=>'A new language has been added']);
+            $newLanguageName = strtolower($request->input('language_name'));
+            $new_language = new Languages();
+            $new_language->language_name = $newLanguageName;
+            $new_language->save();
+            return response(['status'=>true, 'message'=>'A new language has been added']);
            }
-           else{
-               return response(['status'=>false, 'message'=>'Please select a valid language']);
-           }
-        }
         else{
             return response(['status'=>false, 'message'=>'Sorry Unauthorized access']);
         }

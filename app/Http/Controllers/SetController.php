@@ -14,9 +14,7 @@ class SetController extends Controller
         ]);
 
         $language = Languages::find($id);
-        if ($language != null){
-            $language_name = $language->languages; 
-
+        if ($language != null){ 
             $admin = auth()->guard('api')->user();
             if ($admin->role == 'admin'){
                 $newSetName = strtolower($request->input('name'));
@@ -25,7 +23,7 @@ class SetController extends Controller
                 $newSet->name = $newSetName;
                 $newSet->language_name = $id;
                 $newSet->save();
-                return response(['status'=>true, 'message'=>'A new question set has been added']);
+                return response(['status'=>true, 'message'=>'A new question set has been added','value'=>$newSet]);
             }
             else{
                 return response(['status'=>false, 'message'=>'Unauthorized access']);
