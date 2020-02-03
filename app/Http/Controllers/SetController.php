@@ -68,7 +68,7 @@ class SetController extends Controller
                 return response(['status'=>false,'message'=>'Set Updated Successfully']);
             }
             else{
-                return response(['status'=>false,'message'=>'Sorry Set Not Fpund']);
+                return response(['status'=>false,'message'=>'Sorry Set Not Found']);
             }
         }
         else{
