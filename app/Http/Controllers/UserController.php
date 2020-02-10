@@ -13,7 +13,8 @@ class UserController extends Controller
     	$loginData=$request->validate([
     		'email'=>'required',
     		'password'=>'required'
-    	]);
+		]);
+		
 
     	$user=User::where('email',$request->email)->first();
 
@@ -36,7 +37,7 @@ class UserController extends Controller
     	$registerData=$request->validate([
     		'name'=>'required',
     		'email'=>'required',
-    		'password'=>'required',
+    		'password'=>'required|confirmed',
     		'role'=>'required',
     	]);
 

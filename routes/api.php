@@ -31,5 +31,9 @@ Route::post('/set/delete/{id}','SetController@delete')->middleware('auth:api');
 Route::post('/set/edit/{id}','SetController@edit')->middleware('auth:api');
 
 Route::post('/reading/{id}', 'ReadingQuestionController@create')->middleware('auth:api');
+Route::post('/reading/edit/{id}', 'ReadingQuestionController@edit')->middleware('auth:api');
+Route::post('/reading/delete/{id}', 'ReadingQuestionController@destroy')->middleware('auth:api');
 
 Route::post('/reading/options/{id}', 'ReadingOptionsController@create')->middleware('auth:api');
+Route::post('/reading/options/edit/{id}', 'ReadingOptionsController@edit')->middleware('auth:api');
+Route::post('/reading/options/delete/{id}', 'ReadingOptionsController@destroy')->middleware('auth:api');

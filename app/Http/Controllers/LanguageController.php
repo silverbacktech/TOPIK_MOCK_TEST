@@ -20,7 +20,7 @@ class LanguageController extends Controller
             $new_language = new Languages();
             $new_language->language_name = $newLanguageName;
             $new_language->save();
-            return response(['status'=>true, 'message'=>'A new language has been added']);
+            return response(['status'=>true, 'message'=>'A new language has been added', 'value'=>$new_language]);
            }
         else{
             return response(['status'=>false, 'message'=>'Sorry Unauthorized access']);

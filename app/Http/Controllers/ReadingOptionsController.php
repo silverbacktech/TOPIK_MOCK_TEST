@@ -39,7 +39,7 @@ class ReadingOptionsController extends Controller
                 $new_option_set->reading_question_id = $id;
                 $new_option_set->reading_options_content = $new_option_name;
                 $new_option_set->save();
-                return response(['status'=>true, 'message'=>'New Option added successfully']);
+                return response(['status'=>true, 'message'=>'New Option added successfully', 'value'=>$new_option_set]);
             }
             else{
                 return response(['status'=>false, 'message'=>'Sorry Unauthorized access']);
@@ -78,9 +78,28 @@ class ReadingOptionsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request,$id)
     {
-        //
+        $validated_data = $request->validate([
+            'reading_options_content' => 'required',
+        ]);
+
+        $admin = auth()->guard('api')->user();
+        if ($admin->role == 'admin'){
+            $options = ReadingOptions::find($id);
+            if (isset($options)){
+                $options->reading_options_content = $request->input('reading_options_content');
+                $options->save();
+                return response(['status'=> true, 'message'=> 'Option edited successfully']);
+            }
+            else{
+                return response(['status'=>false, 'message'=>'Please select a valid question set']);
+            }
+        }
+        else{
+            return response(['status'=>false, 'message'=>'Sorry Unauthorized access']);
+        }
+
     }
 
     /**
@@ -103,6 +122,19 @@ class ReadingOptionsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $admin = auth()->guard('api')->user();
+        if ($admin->role == 'admin'){
+            $option = ReadingOptions::find($id);
+            if (isset($option)){
+                $option->delete();
+                return response(['status'=>true, 'message'=> 'Option deleted successfully']);
+            }
+            else{
+                return response(['status'=>false, 'message'=>'Please select a valid option']);
+            }
+        }
+        else{
+            return response(['status'=>false, 'message' =>'Sorry unauthorized access']);
+        }
     }
 }

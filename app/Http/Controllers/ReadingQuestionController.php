@@ -32,12 +32,15 @@ class ReadingQuestionController extends Controller
         $set = QuestionSets::find($id);
         if ($set != null){
             $question_sets = $id;
+            
+            
 
         $admin = auth()->guard('api')->user();
         if ($admin->role == 'admin'){
             if (isset($set)){
                 $question = new ReadingQuestions();
                 $question->question_sets = $question_sets;
+                
                 $question->question_content = $request->input('question_content');
                 $question->save();
                 return response(['status'=>true, 'message'=>'New question was added successfully']);
@@ -51,6 +54,10 @@ class ReadingQuestionController extends Controller
             return response(['status'=>false, 'message'=>'Sorry Unauthorized access']);
         }
     }
+    else{
+        return response(['status'=>false, 'message'=>'Please select a valid question set']);
+
+        }
     }
 
 
@@ -82,9 +89,27 @@ class ReadingQuestionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request,$id)
     {
-        //
+        $validated_data = $request->validate([
+            'question_content'=>'required',
+        ]);
+
+        $admin=auth()->guard('api')->user();
+        if ($admin->role == 'admin'){
+            $question = ReadingQuestions::find($id);
+            if(isset($question)){
+                $question->question_content = $request->input('question_content');
+                $question->save();
+                return response(['status'=>true, 'message'=>'Reading Question edited successfully', 'value'=>$question]);
+            }
+            else{
+                return response(['status'=>false, 'message'=>'Please select a valid question to edit']);
+            }
+        }
+        else{
+            return response(['status'=>false,'message'=>'Sorry Unauthorised access']);
+        }
     }
 
     /**
@@ -107,6 +132,19 @@ class ReadingQuestionController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $admin = auth()->guard('api')->user();
+        if ($admin->role == 'admin'){
+            $question = ReadingQuestions::find($id);
+            if (isset($question)){
+                $question->delete();
+                return response(['status'=> true, 'message'=>'Question deleted successfully']);
+            }
+            else{
+                return response(['status'=>false, 'message'=>'Please select a valid question set']);
+            }
+        }
+        else{
+            return response(['status'=>false, 'message'=>'Sorry Unauthorized access']);
+        }
     }
 }
