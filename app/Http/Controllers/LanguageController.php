@@ -69,6 +69,9 @@ class LanguageController extends Controller
         }
     }
 
-
+    public function show(){
+		$language = Languages::all();
+		return $language;
+	}
 
 }
