@@ -74,4 +74,17 @@ class SetController extends Controller
         }
         
     }
+
+    public function show(){
+        $sets = QuestionSets::all();
+        $setsArray=[];
+        foreach($sets as $set){
+            $languageName=Languages::where('id',$set->language_name)->get();
+            $set['language']=$languageName;
+            array_push($setsArray,$set);
+        }
+        return $setsArray;
+		
+    }
+    
 }

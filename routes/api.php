@@ -31,6 +31,7 @@ Route::get('/language/show', 'LanguageController@show')->middleware('auth:api');
 Route::post('/set/{id}', 'SetController@add')->middleware('auth:api');
 Route::post('/set/delete/{id}','SetController@delete')->middleware('auth:api');
 Route::post('/set/edit/{id}','SetController@edit')->middleware('auth:api');
+Route::get('/set/show', 'SetController@show')->middleware('auth:api');
 
 Route::post('/reading/{id}', 'ReadingQuestionController@create')->middleware('auth:api');
 Route::post('/reading/edit/{id}', 'ReadingQuestionController@edit')->middleware('auth:api');
