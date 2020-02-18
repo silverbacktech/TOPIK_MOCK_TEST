@@ -24,7 +24,7 @@ class UserController extends Controller
     		}
     		else{
     			$accessToken=$user->createToken('authToken')->accessToken;
-                return response(['status'=>true,'values'=>['role'=>$user->role,'access_token'=>$accessToken]]);
+                return response(['status'=>true,'values'=>['role'=>$user->role,'id'=>$user->id,'name'=>$user->name,'access_token'=>$accessToken]]);
     		}
     	}
     	else{

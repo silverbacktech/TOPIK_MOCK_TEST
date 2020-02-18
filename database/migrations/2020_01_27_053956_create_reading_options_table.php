@@ -15,7 +15,7 @@ class CreateReadingOptionsTable extends Migration
     {
         Schema::create('reading_options', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('reading_question_id')->unsigned();
+            $table->bigInteger('reading_question_id')->unsigned()->nullable();
             $table->string('reading_options_content');
             $table->timestamps();
         });
