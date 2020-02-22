@@ -16,7 +16,8 @@ class CreateReadingQuestionsTable extends Migration
         Schema::create('reading_questions', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('group_id')->unsigned()->nullable();
-            $table->string('question_content');
+            $table->string('question_content')->nullable();
+            $table->string('image_path')->nullable();
             $table->timestamps();
         });
 

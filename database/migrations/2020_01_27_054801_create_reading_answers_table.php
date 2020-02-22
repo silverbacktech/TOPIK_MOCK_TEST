@@ -16,7 +16,7 @@ class CreateReadingAnswersTable extends Migration
         Schema::create('reading_answers', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('reading_options_id')->unsigned();
-            $table->string('reading_answers_content');
+            $table->integer('option_number');
             $table->timestamps();
         });
 

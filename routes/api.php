@@ -40,3 +40,7 @@ Route::get('/set/show', 'SetController@show')->middleware('auth:api');
 Route::post('/add-question-group/{id}','QuestionGroupController@store')->middleware('auth:api');
 Route::post('/delete-question-group/{id}','QuestionGroupController@destroy')->middleware('auth:api');
 
+
+//Routes for creating questions options and answers based on question group
+Route::post('/add-questions/{id}','ReadingQuestionController@store');
+

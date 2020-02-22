@@ -5,71 +5,58 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\ReadingQuestions;
 use App\QuestionSets;
+use App\ReadingOptions;
+use App\ReadingAnswer;
 
 class ReadingQuestionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create(Request $request,$id)
-    {
-        $addQuestionData = $request->validate([
-            'question_content' => 'required',
-        ]);
-
-        $set = QuestionSets::find($id);
-        if ($set != null){
-            $question_sets = $id;
-            
-            
-
-        $admin = auth()->guard('api')->user();
-        if ($admin->role == 'admin'){
-            if (isset($set)){
-                $question = new ReadingQuestions();
-                $question->question_sets = $question_sets;
-                
-                $question->question_content = $request->input('question_content');
-                $question->save();
-                return response(['status'=>true, 'message'=>'New question was added successfully']);
-
-            }
-            else{
-                return response(['status'=>false, 'message'=>'Please select a valid question set']);
-            }
-        }
-        else{
-            return response(['status'=>false, 'message'=>'Sorry Unauthorized access']);
-        }
-    }
-    else{
-        return response(['status'=>false, 'message'=>'Please select a valid question set']);
-
-        }
-    }
-
-
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,$groupId)
     {
-        //
+        $data=$request->all();
+        $questions=[];
+        $options=[];
+        $images=[];
+        $answers=[];
+
+        $question_id=ReadingQuestions::orderBy('id','desc')->first()['id']+1;
+        $option_id = ReadingOptions::orderBy('id', 'desc')->first()['id'] + 1;
+
+        foreach ($data['question'] as $question) {
+            array_push($questions, [
+                'id' => $question_id,
+                'group_id'=>$groupId;
+                'question' => $question
+            ]);
+
+            for($j = 1; $j <= 4; $j ++) {
+                array_push($options, [
+                    'id' => $option_id,
+                    'reading_question_id' => $question_id
+                    'reading_options_content' => $data['option'.$j][$i],
+                    'option_number' => $j,
+                ]);
+                $option_id ++;
+            }
+
+            array_push($answers, [
+                'id' => $answer_id,
+                'reading_options_id' => $option_id - 5 + $data['answer'.$i],
+                'option_number' => $data['answer'.$i],
+            ]);
+            $question_id ++;
+            $answer_id ++;
+            $i ++;
+        }
+
+        ReadingQuestions::insert($questions);
+        ReadingOptions::insert($options);
+        ReadingAnswer::insert($answers);
     }
 
     /**

@@ -11,6 +11,6 @@ class ReadingOptions extends Model
     }
 
     public function ReadingAnswer(){
-    	return $this->hasOne('App\ReadingAnswer')
+    	return $this->hasOne('App\ReadingAnswer');
     }
 }

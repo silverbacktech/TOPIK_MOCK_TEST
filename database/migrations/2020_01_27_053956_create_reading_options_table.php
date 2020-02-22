@@ -17,6 +17,7 @@ class CreateReadingOptionsTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('reading_question_id')->unsigned()->nullable();
             $table->string('reading_options_content');
+            $table->integer('option_number');
             $table->timestamps();
         });
 
