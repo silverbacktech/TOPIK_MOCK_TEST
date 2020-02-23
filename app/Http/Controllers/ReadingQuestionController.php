@@ -19,6 +19,7 @@ class ReadingQuestionController extends Controller
     public function store(Request $request,$groupId)
     {
         $data=$request->all();
+        $i = 0;
         $questions=[];
         $options=[];
         $images=[];
@@ -26,18 +27,19 @@ class ReadingQuestionController extends Controller
 
         $question_id=ReadingQuestions::orderBy('id','desc')->first()['id']+1;
         $option_id = ReadingOptions::orderBy('id', 'desc')->first()['id'] + 1;
+        $answer_id = ReadingAnswer::orderBy('id','desc')->first()['id']+1;
 
         foreach ($data['question'] as $question) {
             array_push($questions, [
                 'id' => $question_id,
-                'group_id'=>$groupId;
-                'question' => $question
+                'group_id'=>$groupId,
+                'question_content' => $question
             ]);
 
             for($j = 1; $j <= 4; $j ++) {
                 array_push($options, [
                     'id' => $option_id,
-                    'reading_question_id' => $question_id
+                    'reading_question_id' => $question_id,
                     'reading_options_content' => $data['option'.$j][$i],
                     'option_number' => $j,
                 ]);
@@ -49,6 +51,7 @@ class ReadingQuestionController extends Controller
                 'reading_options_id' => $option_id - 5 + $data['answer'.$i],
                 'option_number' => $data['answer'.$i],
             ]);
+
             $question_id ++;
             $answer_id ++;
             $i ++;
@@ -57,6 +60,8 @@ class ReadingQuestionController extends Controller
         ReadingQuestions::insert($questions);
         ReadingOptions::insert($options);
         ReadingAnswer::insert($answers);
+
+         return response(['status'=>true,'message'=>'The questions were inserted','values'=>['questions'=>$questions,'options'=>$options,'answer'=>$answers]]);
     }
 
     /**
