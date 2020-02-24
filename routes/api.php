@@ -42,5 +42,5 @@ Route::post('/delete-question-group/{id}','QuestionGroupController@destroy')->mi
 
 
 //Routes for creating questions options and answers based on question group
-Route::post('/add-questions/{id}','ReadingQuestionController@store');
+Route::post('/add-questions/{id}','ReadingQuestionController@store')->middleware('auth:api');
 
