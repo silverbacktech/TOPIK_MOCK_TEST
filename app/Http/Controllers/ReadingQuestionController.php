@@ -48,6 +48,7 @@ class ReadingQuestionController extends Controller
             // return response($data['answer'][0]);
             array_push($answers, [
                 'id' => $answer_id,
+                'question_id'=>$question_id,
                 'reading_options_id' => $option_id - 5 + $data['answer'][$i],
                 'option_number' => $data['answer'][$i],
             ]);
