@@ -7,7 +7,7 @@ use App\ReadingQuestions;
 use App\QuestionSets;
 use App\ReadingOptions;
 use App\ReadingAnswer;
-
+// header('Access-Control-Allow-Origin: *');
 class ReadingQuestionController extends Controller
 {
     /**
@@ -24,7 +24,6 @@ class ReadingQuestionController extends Controller
         $options=[];
         $images=[];
         $answers=[];
-
         $question_id=ReadingQuestions::orderBy('id','desc')->first()['id']+1;
         $option_id = ReadingOptions::orderBy('id', 'desc')->first()['id'] + 1;
         $answer_id = ReadingAnswer::orderBy('id','desc')->first()['id']+1;
@@ -36,6 +35,7 @@ class ReadingQuestionController extends Controller
                 'question_content' => $question
             ]);
 
+
             for($j = 1; $j <= 4; $j ++) {
                 array_push($options, [
                     'id' => $option_id,
@@ -45,19 +45,20 @@ class ReadingQuestionController extends Controller
                 ]);
                 $option_id ++;
             }
-
+            // return response($data['answer'][0]);
             array_push($answers, [
                 'id' => $answer_id,
-                'reading_options_id' => $option_id - 5 + $data['answer'.$i],
-                'option_number' => $data['answer'.$i],
+                'reading_options_id' => $option_id - 5 + $data['answer'][$i],
+                'option_number' => $data['answer'][$i],
             ]);
-
             $question_id ++;
             $answer_id ++;
             $i ++;
         }
-
+        // return response($answers);
+        // return($questions);
         ReadingQuestions::insert($questions);
+        // return $options;
         ReadingOptions::insert($options);
         ReadingAnswer::insert($answers);
 
@@ -70,10 +71,10 @@ class ReadingQuestionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        //
-    }
+    // public function show($id)
+    // {
+    //     //
+    // }
 
     /**
      * Show the form for editing the specified resource.
