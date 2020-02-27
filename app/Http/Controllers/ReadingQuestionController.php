@@ -45,6 +45,31 @@ class ReadingQuestionController extends Controller
                 ]);
                 $option_id ++;
             }
+
+            foreach ($data['images'][$i]){
+                if($data['images'][$i]!=""){
+                    $file=$request->file($data['images'][$i]);
+
+                    //getFilename with extension
+                    $fileNameWithExtension=$file->getClientOriginalName();
+
+                    //get just FileName
+                    $fileName=pathinfo($fileNameWithExtension,PATHINFO_FILENAME);
+
+                    //get extension
+                    $fileExtension=$file->getClientOriginalExtension();
+
+                    //filename to store
+                    $fileNameToStore=$fileName.'_'.time().'.'.$fileExtension;
+                    $store=$file->move(public_path().'\cover_img',$fileNameToStore);
+
+                    array_push($images,[
+                        'id'=>$option_id,
+                        'question_image'=>$fileNameToStore,
+                    ]);
+                }
+            }
+
             // return response($data['answer'][0]);
             array_push($answers, [
                 'id' => $answer_id,
