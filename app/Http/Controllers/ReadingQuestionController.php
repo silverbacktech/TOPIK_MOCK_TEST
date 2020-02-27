@@ -28,6 +28,7 @@ class ReadingQuestionController extends Controller
         $option_id = ReadingOptions::orderBy('id', 'desc')->first()['id'] + 1;
         $answer_id = ReadingAnswer::orderBy('id','desc')->first()['id']+1;
 
+
         foreach ($data['question'] as $question) {
             array_push($questions, [
                 'id' => $question_id,
@@ -45,32 +46,38 @@ class ReadingQuestionController extends Controller
                 ]);
                 $option_id ++;
             }
+                // if($data['images'][$i]!=""){
+                //     $file=$request->file($image);
 
-            foreach ($data['images'][$i]){
-                if($data['images'][$i]!=""){
-                    $file=$request->file($data['images'][$i]);
+                //     //getFilename with extension
+                //     $fileNameWithExtension=$file->getClientOriginalName();
 
-                    //getFilename with extension
+                //     //get just FileName
+                //     $fileName=pathinfo($fileNameWithExtension,PATHINFO_FILENAME);
+
+                //     //get extension
+                //     $fileExtension=$file->getClientOriginalExtension();
+
+                //     //filename to store
+                //     $fileNameToStore=$fileName.'_'.time().'.'.$fileExtension;
+                //     $store=$file->move(public_path().'\cover_img',$fileNameToStore);
+
+                //     array_push($images,[
+                //         'id'=>$option_id,
+                //         'question_image'=>$fileNameToStore,
+                //     ]);
+                // }
+            foreach($data['images'] as $image){
+                $file=$request->file($image);
+                return(file_exists($file));
+                // if($file){
                     $fileNameWithExtension=$file->getClientOriginalName();
-
-                    //get just FileName
-                    $fileName=pathinfo($fileNameWithExtension,PATHINFO_FILENAME);
-
-                    //get extension
-                    $fileExtension=$file->getClientOriginalExtension();
-
-                    //filename to store
-                    $fileNameToStore=$fileName.'_'.time().'.'.$fileExtension;
-                    $store=$file->move(public_path().'\cover_img',$fileNameToStore);
-
-                    array_push($images,[
-                        'id'=>$option_id,
-                        'question_image'=>$fileNameToStore,
-                    ]);
-                }
+                    return($fileNameWithExtension);
+                // }
+                // else{
+                //     return 123;
+                // }
             }
-
-            // return response($data['answer'][0]);
             array_push($answers, [
                 'id' => $answer_id,
                 'question_id'=>$question_id,
