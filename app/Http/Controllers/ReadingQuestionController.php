@@ -19,6 +19,7 @@ class ReadingQuestionController extends Controller
     public function store(Request $request,$groupId)
     {
         $data=$request->all();
+        return $data;
         $i = 0;
         $questions=[];
         $options=[];
@@ -67,17 +68,24 @@ class ReadingQuestionController extends Controller
                 //         'question_image'=>$fileNameToStore,
                 //     ]);
                 // }
-            foreach($data['images'] as $image){
-                $file=$request->file($image);
-                return(file_exists($file));
-                // if($file){
-                    $fileNameWithExtension=$file->getClientOriginalName();
-                    return($fileNameWithExtension);
-                // }
-                // else{
-                //     return 123;
-                // }
-            }
+            // return $data['images'];
+            // foreach($data['images'] as $image){
+            //     if($request->hasfile($image)){
+            //         return 123;
+            //     }
+            //     else{
+            //         return 456;
+            //     }
+            //     // $fileNameWithExtension=$file->getClientOriginalName();
+
+            //     // return($fileNameWithExtension);
+
+            //     // array_push($images,[
+            //     //     "id"=>123,
+            //     // ]);
+            // }
+
+            return $images;
             array_push($answers, [
                 'id' => $answer_id,
                 'question_id'=>$question_id,
