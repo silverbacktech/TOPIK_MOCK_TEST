@@ -8,20 +8,20 @@ use App\QuestionSets;
 
 class QuestionGroupController extends Controller
 {
-    public function store(Request $request, $set_id){
+    public function store(Request $request, $question_sets_id){
     	$addQuestionGroup = $request->validate([
             'group_name' => 'required',
     	]);
 
     	$admin=auth()->guard('api')->user();
 
-    	$questionSet=QuestionSets::find($set_id);
+    	$questionSet=QuestionSets::find($question_sets_id);
 
     	if($questionSet!=null){
 	    	if($admin->role=="admin"){
 	    		$groupText=$request->input('group_name');
 	    		$group=new QuestionGroup();
-	    		$group->set_id=$set_id;
+	    		$group->question_sets_id=$question_sets_id;
 	    		$group->group_text=$groupText;
 	    		$group->save();
 	    		 return response(['status'=>true, 'message'=>'A new group has been added', 'value'=>$group]);

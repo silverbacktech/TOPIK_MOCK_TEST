@@ -21,7 +21,7 @@ class SetController extends Controller
                 
                 $newSet = new QuestionSets();
                 $newSet->name = $newSetName;
-                $newSet->language_name = $id;
+                $newSet->language_id = $id;
                 $newSet->save();
                 return response(['status'=>true, 'message'=>'A new question set has been added','value'=>$newSet]);
             }
@@ -79,7 +79,7 @@ class SetController extends Controller
         $sets = QuestionSets::all();
         $setsArray=[];
         foreach($sets as $set){
-            $languageName=Languages::where('id',$set->language_name)->get();
+            $languageName=Languages::where('id',$set->languages_id)->get();
             $set['language']=$languageName;
             array_push($setsArray,$set);
         }

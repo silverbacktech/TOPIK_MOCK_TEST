@@ -115,4 +115,24 @@ class UserController extends Controller
 		return $user;
 	}
 
+
+	public function showAll($roleCheck){
+		$admin = auth()->guard('api')->user();
+		if ($admin->role == 'admin'){
+			$users = User::all();
+			$students = [];
+		
+			foreach ($users as $user){
+				$check = ($user->role);
+				if ($check == $roleCheck){	
+					array_push($students, $user);
+				}
+			}
+			return response($students);
+		}
+		else{
+			return response(['status'=>true, 'message'=>'Sorry only admin are allowed to access the member informations']);
+		}	
+	}
+
 }

@@ -15,14 +15,14 @@ class CreateReadingQuestionsTable extends Migration
     {
         Schema::create('reading_questions', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('group_id')->unsigned()->nullable();
+            $table->bigInteger('question_group_id')->unsigned()->nullable();
             $table->string('question_content');
             $table->string('question_image')->nullable();
             $table->timestamps();
         });
 
         Schema::table('reading_questions', function (Blueprint $table){
-            $table->foreign('group_id')->references('id')->on('question_groups')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('question_group_id')->references('id')->on('question_groups')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

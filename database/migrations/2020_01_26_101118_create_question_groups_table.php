@@ -15,13 +15,13 @@ class CreateQuestionGroupsTable extends Migration
     {
         Schema::create('question_groups', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('set_id')->unsigned()->nullable();
+            $table->bigInteger('question_sets_id')->unsigned()->nullable();
             $table->string('group_text')->nullable();
             $table->timestamps();
         });
 
         Schema::table('question_groups', function (Blueprint $table){
-            $table->foreign('set_id')->references('id')->on('question_sets')->onDelete('cascade')->onUpdate("cascade");
+            $table->foreign('question_sets_id')->references('id')->on('question_sets')->onDelete('cascade')->onUpdate("cascade");
         });
     }
 

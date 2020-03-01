@@ -10,7 +10,61 @@ use App\ReadingQuestions;
 use App\ReadingOptions;
 use App\ReadingAnswer;
 
+
+ 
 class StudentTestController extends Controller
 {
-    //
+    //Show Languages
+    public function getLanguages(){
+        $student = auth()->guard('api')->user();
+        if ($student->role == 'student'){
+            $languages = Languages::all();
+            return $languages;
+        }
+        else{
+            return response(['status'=>true, 'message'=>'Sorry Only students are allowed to give exam' ]);
+        }
+    }
+
+    public function getSets($id){
+        $student = auth()->guard('api')->user();
+        if ($student->role == 'student'){
+            $language = Languages::find($id);
+            $question_sets = $language->sets;
+            
+            if (isset($question_sets)){
+                return $question_sets;
+            }
+            else{
+                return response(['status'=>false, 'message'=>'Sorry no question set found']);
+            }
+        }
+        else{
+            return response(['message'=>false, 'message'=>'Sorry Only students are allowed to give exam']);
+        }
+    }
+
+    public function getGroups($id){
+        $student = auth()->guard('api')->user();
+        if ($student->role == 'student'){
+            $set = QuestionSets::find($id);
+            $groups = $set->readingGroup;
+            if (isset($groups)){
+                $groupsQuestions= [] ;
+                foreach ($groups as $group){
+                    $questions = $group->readingQuestions;
+                    $group['questions'] = $questions;
+                    array_push($groupsQuestions, $group);
+                }
+
+                return $groups;
+            }
+            else{
+                return response(['status'=>false, 'message'=>'No groups have been added']);
+            }
+        }
+        else{
+            return response([ 'status'=> false, 'message'=>'Sorry Only students are allowed to give exam']);
+        }
+    }
 }

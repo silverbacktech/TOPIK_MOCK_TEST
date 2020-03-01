@@ -22,7 +22,11 @@ Route::post('/login','UserController@login');
 Route::post('/register','UserController@register')->middleware('auth:api');
 Route::post('/user/edit/{id}','UserController@edit')->middleware('auth:api');
 Route::post('/user/delete/{id}','UserController@delete')->middleware('auth:api');
+
+//Routes for showing the users 
 Route::post('/user/show/{id}','UserController@show')->middleware('auth:api');
+Route::get('/user/showUsers/{role}','UserController@showAll')->middleware('auth:api');
+
 
 // Route for languages
 Route::post('/language', 'LanguageController@add')->middleware('auth:api');
@@ -44,3 +48,7 @@ Route::post('/delete-question-group/{id}','QuestionGroupController@destroy')->mi
 //Routes for creating questions options and answers based on question group
 Route::post('/add-questions/{id}','ReadingQuestionController@store')->middleware('auth:api');
 
+//Routes for student test
+Route::get('/student-languages', 'StudentTestController@getLanguages')->middleware('auth:api');
+Route::get('/student-sets/{id}', 'StudentTestController@getSets')->middleware('auth:api');
+Route::get('/student-groups/{id}', 'StudentTestController@getGroups')->middleware('auth:api');
