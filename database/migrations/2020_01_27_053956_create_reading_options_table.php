@@ -15,14 +15,14 @@ class CreateReadingOptionsTable extends Migration
     {
         Schema::create('reading_options', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('reading_question_id')->unsigned()->nullable();
+            $table->bigInteger('reading_questions_id')->unsigned()->nullable();
             $table->string('reading_options_content');
             $table->integer('option_number');
             $table->timestamps();
         });
 
         Schema::table('reading_options', function (Blueprint $table){
-            $table->foreign('reading_question_id')->references('id')->on('reading_questions')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('reading_questions_id')->references('id')->on('reading_questions')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

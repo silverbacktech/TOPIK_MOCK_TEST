@@ -21,7 +21,7 @@ class SetController extends Controller
                 
                 $newSet = new QuestionSets();
                 $newSet->name = $newSetName;
-                $newSet->language_id = $id;
+                $newSet->languages_id = $id;
                 $newSet->save();
                 return response(['status'=>true, 'message'=>'A new question set has been added','value'=>$newSet]);
             }

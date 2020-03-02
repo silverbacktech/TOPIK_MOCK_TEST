@@ -15,13 +15,13 @@ class CreateQuestionSetsTable extends Migration
     {
         Schema::create('question_sets', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('language_id')->unsigned();
+            $table->bigInteger('languages_id')->unsigned();
             $table->string('name');
             $table->timestamps();
         });
 
         Schema::table('question_sets', function (Blueprint $table){
-            $table->foreign('language_id')->references('id')->on('languages')->onDelete('cascade')->onUpdate("cascade");
+            $table->foreign('languages_id')->references('id')->on('languages')->onDelete('cascade')->onUpdate("cascade");
         });
     }
 

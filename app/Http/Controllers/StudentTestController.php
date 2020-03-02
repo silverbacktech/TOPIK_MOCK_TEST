@@ -49,12 +49,15 @@ class StudentTestController extends Controller
         if ($student->role == 'student'){
             $set = QuestionSets::find($id);
             $groups = $set->readingGroup;
+            // return $groups;
             if (isset($groups)){
                 $groupsQuestions= [] ;
                 foreach ($groups as $group){
                     $questions = $group->readingQuestions;
-                    $group['questions'] = $questions;
-                    array_push($groupsQuestions, $group);
+                    foreach($questions as $question){
+                        $question->readingOptions;
+                        $question->readingAnswer;
+                    }
                 }
 
                 return $groups;

@@ -43,7 +43,7 @@ class ReadingQuestionController extends Controller
             for($j = 1; $j <= 4; $j ++) {
                 array_push($options, [
                     'id' => $option_id,
-                    'reading_question_id' => $question_id,
+                    'reading_questions_id' => $question_id,
                     'reading_options_content' => $data['option'.$j][$i],
                     'option_number' => $j,
                 ]);
@@ -91,7 +91,7 @@ class ReadingQuestionController extends Controller
             // return $images;
             array_push($answers, [
                 'id' => $answer_id,
-                'question_id'=>$question_id,
+                'reading_questions_id'=>$question_id,
                 'reading_options_id' => $option_id - 5 + $data['answer'][$i],
                 'option_number' => $data['answer'][$i],
             ]);
