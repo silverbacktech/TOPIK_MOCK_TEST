@@ -18,7 +18,7 @@ class CreateReadingSubmittedAnswersTable extends Migration
             $table->bigInteger('reading_question_id')->unsigned();
             $table->bigInteger('reading_answer_id')->unsigned();
             $table->bigInteger('student_id')->unsigned();
-            $table->string('reading_submitted_answer');
+            $table->bigInteger('answer_option_id')->unsigned();
             $table->timestamps();
         });
 
@@ -32,6 +32,10 @@ class CreateReadingSubmittedAnswersTable extends Migration
 
         Schema::table('reading_submitted_answers', function( Blueprint $table){
             $table->foreign('student_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+        });
+        
+        Schema::table('reading_submitted_answers', function(Blueprint $table){
+            $table->foreign('answer_option_id')->references('id')->on('reading_options')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
