@@ -55,3 +55,7 @@ Route::get('/student-groups/{id}', 'StudentTestController@getGroups')->middlewar
 
 //Route for submitting answers
 Route::post('/submitted-answers/{id}', 'ReadingSubmittedAnswersController@submitReadingAnswers')->middleware('auth:api');
+
+
+// Route for images
+Route::post('/send-images','ReadingQuestionController@getImages');

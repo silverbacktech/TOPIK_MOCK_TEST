@@ -32,10 +32,14 @@ class ReadingQuestionController extends Controller
 
 
         foreach ($data['question'] as $question) {
+            $files=$request->file('questionfile');
+            $name=$files[$i]->getClientOriginalName();
+            $store=$files[$i]->move(public_path().'\cover_img',$name);
             array_push($questions, [
                 'id' => $question_id,
                 'question_group_id'=>$groupId,
-                'question_content' => $question
+                'question_content' => $question,
+                'question_image' => $name,
             ]);
 
 
@@ -49,51 +53,13 @@ class ReadingQuestionController extends Controller
                 ]);
                 $option_id ++;
             }
-    
-                // if($data['images'][$i]!=""){
-                //     $file=$request->file($image);
-
-                //     //getFilename with extension
-                //     $fileNameWithExtension=$file->getClientOriginalName();
-
-                //     //get just FileName
-                //     $fileName=pathinfo($fileNameWithExtension,PATHINFO_FILENAME);
-
-                //     //get extension
-                //     $fileExtension=$file->getClientOriginalExtension();
-
-                //     //filename to store
-                //     $fileNameToStore=$fileName.'_'.time().'.'.$fileExtension;
-                //     $store=$file->move(public_path().'\cover_img',$fileNameToStore);
-
-                //     array_push($images,[
-                //         'id'=>$option_id,
-                //         'question_image'=>$fileNameToStore,
-                //     ]);
-                // }
-            // return $data['images'];
-            // foreach($data['images'] as $image){
-            //     if($request->hasfile($image)){
-            //         return 123;
-            //     }
-            //     else{
-            //         return 456;
-            //     }
-            //     // $fileNameWithExtension=$file->getClientOriginalName();
-
-            //     // return($fileNameWithExtension);
-
-            //     // array_push($images,[
-            //     //     "id"=>123,
-            //     // ]);
-            // }
 
             // return $images;
             array_push($answers, [
                 'id' => $answer_id,
                 'reading_questions_id'=>$question_id,
-                'reading_options_id' => $option_id - 5 + $data['answer'][$i],
-                'option_number' => $data['answer'][$i],
+                'reading_options_id' => $option_id - 5 + $data['answers'][$i],
+                'option_number' => $data['answers'][$i],
             ]);
 
             
@@ -186,5 +152,13 @@ class ReadingQuestionController extends Controller
         else{
             return response(['status'=>false, 'message'=>'Sorry Unauthorized access']);
         }
+    }
+
+    public function getImages(Request $request){
+        $files=$request->file('files');
+        dd($files);
+        $name=$file->getClientOriginalName();
+        $store=$file->move(public_path().'\cover_img',$name);
+        return "File Submitted Successfully";
     }
 }
