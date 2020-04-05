@@ -20,7 +20,7 @@ class ReadingQuestionController extends Controller
     {
         $data=$request->all();
         $i = 0;
-    
+        
         $questions=[];
         $options=[];
         $images=[];
@@ -33,7 +33,7 @@ class ReadingQuestionController extends Controller
         foreach ($data['question'] as $question) {
             $files=$request->file('questionfile');
             $name=$files[$i]->getClientOriginalName();
-            $store=$files[$i]->move(public_path().'\cover_img',$name);
+            $store=$files[$i]->move(public_path().'/cover_img',$name);
             array_push($questions, [
                 'id' => $question_id,
                 'question_group_id'=>$groupId,
