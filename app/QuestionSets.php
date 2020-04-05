@@ -21,4 +21,8 @@ class QuestionSets extends Model
     public function readingGroup(){
     	return $this->hasMany('App\QuestionGroup');
     }
+
+    public function listeningGroup(){
+        return $this->hasMany('App\ListeningGroup');
+    }
 }

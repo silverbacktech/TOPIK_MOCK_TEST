@@ -58,4 +58,10 @@ Route::post('/submitted-answers/{id}', 'ReadingSubmittedAnswersController@submit
 
 
 // Route for images
-Route::post('/send-images','ReadingQuestionController@getImages');
+// Route::post('/send-images','ReadingQuestionController@getImages');
+
+// Route for listening question group
+Route::post('/add-listening-group/{id}','ListeningQuestionGroupController@store')->middleware('auth:api');
+Route::post('/delete-listening-group/{id}','ListeningQuestionGroupController@destroy')->middleware('auth:api');
+
+

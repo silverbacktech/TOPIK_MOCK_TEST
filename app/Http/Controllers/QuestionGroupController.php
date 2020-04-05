@@ -24,7 +24,7 @@ class QuestionGroupController extends Controller
 	    		$group->question_sets_id=$question_sets_id;
 	    		$group->group_text=$groupText;
 	    		$group->save();
-	    		 return response(['status'=>true, 'message'=>'A new group has been added', 'value'=>$group]);
+	    		return response(['status'=>true, 'message'=>'A new group has been added', 'value'=>$group]);
 	           }
 	        else{
 	        	return response(['status'=>false,'message'=>"Sorry Unauthorized Access"]);

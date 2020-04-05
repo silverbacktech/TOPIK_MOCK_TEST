@@ -19,7 +19,6 @@ class ReadingQuestionController extends Controller
     public function store(Request $request,$groupId)
     {
         $data=$request->all();
-        // return $data;
         $i = 0;
     
         $questions=[];
