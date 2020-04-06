@@ -15,6 +15,11 @@ class CreateListeningQuestionsTable extends Migration
     {
         Schema::create('listening_questions', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger('question_group_id')->unsigned()->nullable();
+            $table->string('question_content');
+            $table->string('question_image')->nullable();
+            $table->string('start_time');
+            $table->string('end_time');
             $table->timestamps();
         });
     }

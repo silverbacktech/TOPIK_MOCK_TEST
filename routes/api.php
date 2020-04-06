@@ -64,4 +64,7 @@ Route::post('/submitted-answers/{id}', 'ReadingSubmittedAnswersController@submit
 Route::post('/add-listening-group/{id}','ListeningQuestionGroupController@store')->middleware('auth:api');
 Route::post('/delete-listening-group/{id}','ListeningQuestionGroupController@destroy')->middleware('auth:api');
 
+// Route for listening question
+Route::post('/add-listening-question/{id}','ListeningQuestionController@store')->middleware('auth:api');
+
 

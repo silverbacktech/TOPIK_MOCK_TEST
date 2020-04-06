@@ -10,5 +10,7 @@ class ListeningGroup extends Model
     	return $this->belongsTo('App\QuestionSets');
     }
 
-    
+    public function listeningQuestions(){
+    	return $this->hasMany('App\ListeningQuestions');
+    }
 }
