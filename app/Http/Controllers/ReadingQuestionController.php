@@ -20,8 +20,6 @@ class ReadingQuestionController extends Controller
     {
         $data=$request->all();
         $i = 0;
-        return $data;
-        // return $data;
         
         $questions=[];
         $options=[];
