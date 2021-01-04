@@ -20,7 +20,6 @@ class ReadingQuestionController extends Controller
     {
         $data=$request->all();
         $i = 0;
-        
         $questions=[];
         $options=[];
         $images=[];
@@ -41,8 +40,6 @@ class ReadingQuestionController extends Controller
                 'question_image' => $name,
             ]);
 
-
-
             for($j = 1; $j <= 4; $j ++) {
                 array_push($options, [
                     'id' => $option_id,
@@ -61,16 +58,14 @@ class ReadingQuestionController extends Controller
                 'option_number' => $data['answers'][$i],
             ]);
 
-            
-
             $question_id ++;
             $answer_id ++;
             $i ++;
         }
         // return response($answers);
         // return($questions);
-        ReadingQuestions::insert($questions);
         // return $options;
+        ReadingQuestions::insert($questions);
         ReadingOptions::insert($options);
         ReadingAnswer::insert($answers);
 

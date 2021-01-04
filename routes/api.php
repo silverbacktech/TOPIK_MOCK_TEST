@@ -27,7 +27,6 @@ Route::post('/user/delete/{id}','UserController@delete')->middleware('auth:api')
 Route::post('/user/show/{id}','UserController@show')->middleware('auth:api');
 Route::get('/user/showUsers/{role}','UserController@showAll')->middleware('auth:api');
 
-
 // Route for languages
 Route::post('/language', 'LanguageController@add')->middleware('auth:api');
 Route::post('/language/delete/{id}', 'LanguageController@delete')->middleware('auth:api');
