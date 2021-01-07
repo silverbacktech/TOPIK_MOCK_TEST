@@ -70,4 +70,36 @@ class StudentTestController extends Controller
             return response([ 'status'=> false, 'message'=>'Sorry Only students are allowed to give exam']);
         }
     }
+
+    public function getAllQuestions($id){
+        $student = auth()->guard('api')->user();
+
+        if ($student->role == 'student'){
+            $set = QuestionSets::find($id);
+
+            if($set){
+                $groups = $set->readingGroup;
+                // return $groups;
+                $groupsQuestions= [] ;
+                foreach ($groups as $group){
+                    $questions = $group->readingQuestions;
+                    foreach($questions as $question){
+                        $question->readingOptions;
+                        $question->readingAnswer;
+                    }
+                }
+                $listeningQuestions = $set->listeningQuestions;
+                foreach($listeningQuestions as $listeningQuestion){
+                    $listeningQuestion->listeningOptions;
+                    $listeningQuestion->listeningAnswer;
+                }
+                return response(['message'=>true, 'reading-questions'=>$groups, 'listening-questions'=>$listeningQuestions]);
+                // return $listeningQuestions;
+                // return $groups;
+            }
+        }
+        else{
+            return response([ 'status'=> false, 'message'=>'Sorry Only students are allowed to give exam']);
+        }
+    }
 }

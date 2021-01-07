@@ -12,10 +12,10 @@ class ListeningQuestions extends Model
     public function listeningGroup(){
     	return $this->belongsTo('App\ListeningGroup');
     }
-    // public function readingOptions(){
-    // 	return $this->hasMany('App\ReadingOptions');
-    // }
-    // public function readingAnswer(){
-    // 	return $this->hasOne('App\ReadingAnswer');
-    // }
+    public function listeningOptions(){
+    	return $this->hasMany('App\ListeningOptions');
+    }
+    public function listeningAnswer(){
+    	return $this->hasOne('App\ListeningAnswer');
+    }
 }

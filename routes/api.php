@@ -51,7 +51,7 @@ Route::post('/add-questions/{id}','ReadingQuestionController@store')->middleware
 Route::get('/student-languages', 'StudentTestController@getLanguages')->middleware('auth:api');
 Route::get('/student-sets/{id}', 'StudentTestController@getSets')->middleware('auth:api');
 Route::get('/student-groups/{id}', 'StudentTestController@getGroups')->middleware('auth:api');
-
+Route::get('/student-questions/{id}','StudentTestController@getAllQuestions')->middleware('auth:api');
 //Route for submitting answers
 Route::post('/submitted-answers/{id}', 'ReadingSubmittedAnswersController@submitReadingAnswers')->middleware('auth:api');
 

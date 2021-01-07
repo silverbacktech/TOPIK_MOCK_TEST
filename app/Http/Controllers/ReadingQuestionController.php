@@ -19,6 +19,7 @@ class ReadingQuestionController extends Controller
     public function store(Request $request,$groupId)
     {
         $data=$request->all();
+        // return response($data);
         $i = 0;
         $questions=[];
         $options=[];
@@ -30,15 +31,26 @@ class ReadingQuestionController extends Controller
 
 
         foreach ($data['question'] as $question) {
-            $files=$request->file('questionfile');
-            $name=$files[$i]->getClientOriginalName();
-            $store=$files[$i]->move(public_path().'/cover_img',$name);
-            array_push($questions, [
-                'id' => $question_id,
-                'question_group_id'=>$groupId,
-                'question_content' => $question,
-                'question_image' => $name,
-            ]);
+            $files=$data['questionfile'];
+
+            if($files[$i]){
+                $name=$files[$i]->getClientOriginalName();
+                $store=$files[$i]->move(public_path().'/cover_img',$name);
+                array_push($questions, [
+                    'id' => $question_id,
+                    'question_group_id'=>$groupId,
+                    'question_content' => $question,
+                    'question_image' => $name,
+                ]);
+            }
+            else{
+                array_push($questions, [
+                    'id' => $question_id,
+                    'question_group_id'=>$groupId,
+                    'question_content' => $question,
+                    'question_image' => null,
+                ]);
+            }
 
             for($j = 1; $j <= 4; $j ++) {
                 array_push($options, [
