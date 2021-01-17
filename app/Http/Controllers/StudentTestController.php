@@ -88,12 +88,16 @@ class StudentTestController extends Controller
                         $question->readingAnswer;
                     }
                 }
-                $listeningQuestions = $set->listeningQuestions;
-                foreach($listeningQuestions as $listeningQuestion){
-                    $listeningQuestion->listeningOptions;
-                    $listeningQuestion->listeningAnswer;
+                $listeningGroups = $set->listeningGroup;
+                foreach($listeningGroups as $listeningGroup){
+                    $listeningQuestions = $listeningGroup->listeningQuestions;
+
+                    foreach($listeningQuestions as $listeningQuestion){
+                        $listeningQuestion->listeningOptions;
+                        $listeningQuestion->listeningAnswer;
+                    }
                 }
-                return response(['message'=>true, 'readingQuestions'=>$groups, 'listeningQuestions'=>$listeningQuestions]);
+                return response(['message'=>true, 'readingQuestions'=>$groups, 'listeningQuestions'=>$listeningGroups]);
                 // return $listeningQuestions;
                 // return $groups;
             }

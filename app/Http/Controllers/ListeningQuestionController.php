@@ -53,7 +53,7 @@ class ListeningQuestionController extends Controller
 
             array_push($audioFiles, [
                 'id' => $question_id,
-                'question_sets_id'=>$groupId,
+                'listening_group_id'=>$groupId,
                 'audio_file' => $name,
             ]);
             

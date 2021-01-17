@@ -15,14 +15,14 @@ class CreateListeningQuestionsTable extends Migration
     {
         Schema::create('listening_questions', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('question_sets_id')->unsigned()->nullable();
+            $table->bigInteger('listening_group_id')->unsigned()->nullable();
             // $table->string('question_content');
             $table->string('audio_file');
             $table->timestamps();
         });
 
         Schema::table('listening_questions', function (Blueprint $table){
-            $table->foreign('question_sets_id')->references('id')->on('question_sets')->onDelete('cascade')->onUpdate("cascade");
+            $table->foreign('listening_group_id')->references('id')->on('listening_groups')->onDelete('cascade')->onUpdate("cascade");
         });
     }
 
