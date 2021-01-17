@@ -18,6 +18,7 @@ class CreateListeningQuestionsTable extends Migration
             $table->bigInteger('listening_group_id')->unsigned()->nullable();
             // $table->string('question_content');
             $table->string('audio_file');
+            $table->string('image_file')->nullable();
             $table->timestamps();
         });
 
