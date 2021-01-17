@@ -93,7 +93,7 @@ class StudentTestController extends Controller
                     $listeningQuestion->listeningOptions;
                     $listeningQuestion->listeningAnswer;
                 }
-                return response(['message'=>true, 'reading-questions'=>$groups, 'listening-questions'=>$listeningQuestions]);
+                return response(['message'=>true, 'readingQuestions'=>$groups, 'listeningQuestions'=>$listeningQuestions]);
                 // return $listeningQuestions;
                 // return $groups;
             }

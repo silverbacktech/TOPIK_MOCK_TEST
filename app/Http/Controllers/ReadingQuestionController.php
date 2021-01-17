@@ -25,9 +25,33 @@ class ReadingQuestionController extends Controller
         $options=[];
         $images=[];
         $answers=[];
-        $question_id=ReadingQuestions::orderBy('id','desc')->first()['id']+1;   //To avoid repeatetive id while adding question
-        $option_id = ReadingOptions::orderBy('id', 'desc')->first()['id'] + 1;
-        $answer_id = ReadingAnswer::orderBy('id','desc')->first()['id']+1;
+        $question=ReadingQuestions::orderBy('id','desc')->first();   //To avoid repeatetive id while adding question
+        
+        $question_id;
+        if(isset($question)){
+            $question_id=$question['id']+1;
+        }
+        else{
+            $question_id=1;
+        }
+
+        $option = ReadingOptions::orderBy('id', 'desc')->first();
+        $option_id;
+        if(isset($option)){
+            $option_id=$option['id']+1;
+        }
+        else{
+            $option_id=1;
+        }
+
+        $answer = ReadingAnswer::orderBy('id','desc')->first();
+        $answer_id;
+        if(isset($answer)){
+            $answer_id=$answer['id']+1;
+        }
+        else{
+            $answer_id=1;
+        }
 
 
         foreach ($data['question'] as $question) {

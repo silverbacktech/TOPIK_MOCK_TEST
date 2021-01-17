@@ -16,9 +16,36 @@ class ListeningQuestionController extends Controller
         $audioFiles=[];
         $options=[];
         $answers=[];
-        $question_id=ListeningQuestions::orderBy('id','desc')->first()['id']+1;   //To avoid repeatetive id while adding question
-        $option_id = ListeningOptions::orderBy('id', 'desc')->first()['id'] + 1;
-        $answer_id = ListeningAnswer::orderBy('id','desc')->first()['id']+1;
+
+        $question=ListeningQuestions::orderBy('id','desc')->first();   //To avoid repeatetive id while adding question
+        
+        $question_id;
+        if(isset($question)){
+            $question_id=$question['id']+1;
+        }
+        else{
+            $question_id=1;
+        }
+
+        $option = ListeningOptions::orderBy('id', 'desc')->first();
+        $option_id;
+        if(isset($option)){
+            $option_id=$option['id']+1;
+        }
+        else{
+            $option_id=1;
+        }
+
+        $answer = ListeningAnswer::orderBy('id','desc')->first();
+        $answer_id;
+        if(isset($answer)){
+            $answer_id=$answer['id']+1;
+        }
+        else{
+            $answer_id=1;
+        }
+
+
 
         foreach ($data['audioFiles'] as $audio) {
             $name=$audio->getClientOriginalName();
