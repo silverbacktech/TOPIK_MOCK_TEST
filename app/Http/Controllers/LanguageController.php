@@ -15,7 +15,7 @@ class LanguageController extends Controller
         
 
 		$admin = auth()->guard('api')->user();
-        if ($admin->role == 'admin'){
+        if ($admin->role == 'admin' && $admin->status){
             $newLanguageName = strtolower($request->input('language_name'));
             $new_language = new Languages();
             $new_language->language_name = $newLanguageName;
@@ -31,7 +31,7 @@ class LanguageController extends Controller
     public function delete($id){
 
         $admin = auth()->guard('api')->user();
-        if ($admin->role == 'admin'){
+        if ($admin->role == 'admin' && $admin->status){
             $language = Languages::find($id);
             if (isset($language)){
                 $language->delete();
@@ -53,7 +53,7 @@ class LanguageController extends Controller
     	]);
         
         $admin = auth()->guard('api')->user();
-        if ($admin->role == 'admin'){
+        if ($admin->role == 'admin' && $admin->status){
             $language = Languages::find($id);
             if (isset($language)){
                 $language->language_name = $request->input('language_name');

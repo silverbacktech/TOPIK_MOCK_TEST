@@ -18,7 +18,7 @@ class QuestionGroupController extends Controller
     	$questionSet=QuestionSets::find($question_sets_id);
 
     	if($questionSet!=null){
-	    	if($admin->role=="admin"){
+	    	if($admin->role=="admin" && $admin->status){
 	    		$groupText=$request->input('group_name');
 	    		$group=new QuestionGroup();
 	    		$group->question_sets_id=$question_sets_id;
@@ -38,7 +38,7 @@ class QuestionGroupController extends Controller
     public function destroy($id){
     	$admin=auth()->guard('api')->user();
 
-    	if($admin->role=="admin"){
+    	if($admin->role=="admin" && $admin->status){
     		$group=QuestionGroup::find($id);
     		$group->delete();
     		return response(['status'=>true, 'message'=>'Group has deleted']);

@@ -12,7 +12,7 @@ class ReadingSubmittedAnswersController extends Controller
 {
     public function submitReadingAnswers(Request $request, $student_id){
         $student=auth()->guard('api')->user();
-        if ($student->role == "student"){
+        if ($student->role == "student" && $admin->status){
 
             $data = $request->all();
             $answers = [];

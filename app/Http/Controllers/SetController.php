@@ -22,6 +22,7 @@ class SetController extends Controller
                 $newSet = new QuestionSets();
                 $newSet->name = $newSetName;
                 $newSet->languages_id = $id;
+                $newSet->status = true;
                 $newSet->save();
                 return response(['status'=>true, 'message'=>'A new question set has been added','value'=>$newSet]);
             }
@@ -85,6 +86,25 @@ class SetController extends Controller
         }
         return $setsArray;
 		
+    }
+
+    public function changeStatus($id){
+        $set = QuestionSets::find($id);
+
+        if($set){
+            if($set->status){
+                $set->status = false;
+                $set->save();
+                return response(['status'=>true, 'message'=>'Set status set to false']);
+            }
+            else{
+                $set->status = true;
+                $set->save();
+                return response(['status'=>true,'message'=>'Set status set to true']);
+            }
+        }else{
+            return response(['status'=>false, 'message'=>'Set Not Found']);
+        }
     }
     
 }

@@ -18,6 +18,7 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
+            $table->boolean('status')->nullable();
             $table->string('role');
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
@@ -31,6 +32,7 @@ class CreateUsersTable extends Migration
                 'email' => 'name@domain.com',
                 'password'=>$password,
                 'role'=>'admin',
+                'status'=>true
             )
         );
 

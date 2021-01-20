@@ -17,6 +17,7 @@ class CreateQuestionSetsTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('languages_id')->unsigned();
             $table->string('name');
+            $table->boolean('status');
             $table->timestamps();
         });
 

@@ -18,7 +18,7 @@ class ListeningQuestionGroupController extends Controller
     	$questionSet = QuestionSets::find($id);
 
     	if($questionSet != null){
-    		if($admin->role == "admin"){
+    		if($admin->role == "admin" && $admin->status){
     			$groupText = $request->input('group_name');
     			$group = new ListeningGroup();
     			$group->question_sets_id = $id;
@@ -39,7 +39,7 @@ class ListeningQuestionGroupController extends Controller
     public function destroy($id){
     	$admin=auth()->guard('api')->user();
 
-    	if($admin->role=="admin"){
+    	if($admin->role=="admin" && $admin->status){
     		$group=ListeningGroup::find($id);
     		$group->delete();
     		return response(['status'=>true, 'message'=>'Group has deleted']);

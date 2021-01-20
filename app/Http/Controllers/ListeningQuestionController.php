@@ -52,18 +52,27 @@ class ListeningQuestionController extends Controller
             $store=$audio->move(public_path().'/cover_img',$name);
 
             $imageName;
+            $content;
 
             if(is_file($data['questionImage'][$i])){
                 $imageName = $data['questionImage'][$i]->getClientOriginalName();
-                $data['questionImage'][$i]->move(public_path().'/cover_img',$name);
+                $data['questionImage'][$i]->move(public_path().'/cover_img',$imageName);
             }else{
                 $imageName = null;
+            }
+
+            if($data['questionContent'][$i]){
+                $content = $data['questionContent'][$i];
+            }
+            else{
+                $content = null;
             }
 
             array_push($audioFiles, [
                 'id' => $question_id,
                 'listening_group_id'=>$groupId,
                 'audio_file' => $name,
+                'question_content'=>$content,
                 'image_file' => $imageName,
             ]);
             

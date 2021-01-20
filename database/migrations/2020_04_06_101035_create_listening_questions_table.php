@@ -16,7 +16,7 @@ class CreateListeningQuestionsTable extends Migration
         Schema::create('listening_questions', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('listening_group_id')->unsigned()->nullable();
-            // $table->string('question_content');
+            $table->string('question_content')->nullable();
             $table->string('audio_file');
             $table->string('image_file')->nullable();
             $table->timestamps();

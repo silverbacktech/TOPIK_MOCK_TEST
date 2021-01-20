@@ -98,9 +98,7 @@ class ReadingQuestionController extends Controller
             $answer_id ++;
             $i ++;
         }
-        // return response($answers);
-        // return($questions);
-        // return $options;
+        
         ReadingQuestions::insert($questions);
         ReadingOptions::insert($options);
         ReadingAnswer::insert($answers);
@@ -132,7 +130,7 @@ class ReadingQuestionController extends Controller
         ]);
 
         $admin=auth()->guard('api')->user();
-        if ($admin->role == 'admin'){
+        if ($admin->role == 'admin' && $admin->status){
             $question = ReadingQuestions::find($id);
             if(isset($question)){
                 $question->question_content = $request->input('question_content');
@@ -169,7 +167,7 @@ class ReadingQuestionController extends Controller
     public function destroy($id)
     {
         $admin = auth()->guard('api')->user();
-        if ($admin->role == 'admin'){
+        if ($admin->role == 'admin' && $admin->status){
             $question = ReadingQuestions::find($id);
             if (isset($question)){
                 $question->delete();
@@ -182,13 +180,5 @@ class ReadingQuestionController extends Controller
         else{
             return response(['status'=>false, 'message'=>'Sorry Unauthorized access']);
         }
-    }
-
-    public function getImages(Request $request){
-        $files=$request->file('files');
-        dd($files);
-        $name=$file->getClientOriginalName();
-        $store=$file->move(public_path().'\cover_img',$name);
-        return "File Submitted Successfully";
     }
 }

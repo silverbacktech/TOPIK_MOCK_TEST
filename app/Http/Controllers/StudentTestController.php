@@ -17,7 +17,7 @@ class StudentTestController extends Controller
     //Show Languages
     public function getLanguages(){
         $student = auth()->guard('api')->user();
-        if ($student->role == 'student'){
+        if ($student->role == 'student' && $student->status){
             $languages = Languages::all();
             return $languages;
         }
@@ -28,16 +28,11 @@ class StudentTestController extends Controller
 
     public function getSets($id){
         $student = auth()->guard('api')->user();
-        if ($student->role == 'student'){
+        if ($student->role == 'student' && $student->status){
             $language = Languages::find($id);
+
             $question_sets = $language->sets;
-            
-            if (isset($question_sets)){
-                return $question_sets;
-            }
-            else{
-                return response(['status'=>false, 'message'=>'Sorry no question set found']);
-            }
+            return $question_sets;
         }
         else{
             return response(['message'=>false, 'message'=>'Sorry Only students are allowed to give exam']);
@@ -46,7 +41,7 @@ class StudentTestController extends Controller
 
     public function getGroups($id){
         $student = auth()->guard('api')->user();
-        if ($student->role == 'student'){
+        if ($student->role == 'student' && $student->status){
             $set = QuestionSets::find($id);
             $groups = $set->readingGroup;
             // return $groups;
@@ -74,32 +69,38 @@ class StudentTestController extends Controller
     public function getAllQuestions($id){
         $student = auth()->guard('api')->user();
 
-        if ($student->role == 'student'){
+        if ($student->role == 'student' && $student->status){
             $set = QuestionSets::find($id);
-
             if($set){
-                $groups = $set->readingGroup;
-                // return $groups;
-                $groupsQuestions= [] ;
-                foreach ($groups as $group){
-                    $questions = $group->readingQuestions;
-                    foreach($questions as $question){
-                        $question->readingOptions;
-                        $question->readingAnswer;
+                if($set->status){
+                    $groups = $set->readingGroup;
+                    // return $groups;
+                    $groupsQuestions= [] ;
+                    foreach ($groups as $group){
+                        $questions = $group->readingQuestions;
+                        foreach($questions as $question){
+                            $question->readingOptions;
+                            $question->readingAnswer;
+                        }
                     }
-                }
-                $listeningGroups = $set->listeningGroup;
-                foreach($listeningGroups as $listeningGroup){
-                    $listeningQuestions = $listeningGroup->listeningQuestions;
+                    $listeningGroups = $set->listeningGroup;
+                    foreach($listeningGroups as $listeningGroup){
+                        $listeningQuestions = $listeningGroup->listeningQuestions;
 
-                    foreach($listeningQuestions as $listeningQuestion){
-                        $listeningQuestion->listeningOptions;
-                        $listeningQuestion->listeningAnswer;
+                        foreach($listeningQuestions as $listeningQuestion){
+                            $listeningQuestion->listeningOptions;
+                            $listeningQuestion->listeningAnswer;
+                        }
                     }
+                    return response(['message'=>true, 'readingQuestions'=>$groups, 'listeningQuestions'=>$listeningGroups]);
+                    // return $listeningQuestions;
+                    // return $groups;
                 }
-                return response(['message'=>true, 'readingQuestions'=>$groups, 'listeningQuestions'=>$listeningGroups]);
-                // return $listeningQuestions;
-                // return $groups;
+                else{
+                    return response(['status'=>false, 'message'=>'The Status is inactive']);
+                }
+            }else{
+                return response(['status'=>false,'message'=>'No such set found']);
             }
         }
         else{

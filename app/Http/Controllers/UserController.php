@@ -18,7 +18,7 @@ class UserController extends Controller
 
     	$user=User::where('email',$request->email)->first();
 
-    	if($user!=null){
+    	if($user!=null && $user->status){
     		if(!Hash::check($request->password,$user->password)){
     			return response(['status'=>false,'message'=>'Invalid username or password']);
     		}
@@ -50,7 +50,8 @@ class UserController extends Controller
     			$admin->name=$request->name;
     			$admin->email=$request->email;
     			$admin->password=$password;
-    			$admin->role=$role;
+				$admin->role=$role;
+				$admin->status=true;
     			$admin->save();
     			if ($role=="student") {
     				return response(['status'=>true,'values'=>['A student was added']]);
@@ -133,6 +134,31 @@ class UserController extends Controller
 		else{
 			return response(['status'=>true, 'message'=>'Sorry only admin are allowed to access the member informations']);
 		}	
+	}
+
+	public function changeStatus($id){
+		$admin = auth()->guard('api')->user();
+
+		if($admin->role=="admin" && $admin->status){
+			$user = User::find($id);
+			if($user){
+				if($user->status){
+					$user->status=false;
+					$user->save();
+					return response(['status'=>true,'message'=>'User status set to false']);
+				}
+				else{
+					$user->status=true;
+					$user->save();
+					return response(['status'=>true,'message'=>'User status set to true']);
+				}
+			}else{
+				return response(['status'=>false,'message'=>'Sorry No Such User Found']);
+			}
+		}
+		else{
+			return response(['status'=>true, 'message'=>'Sorry Only Admin Is Allowed To Change Status']);
+		}
 	}
 
 }
