@@ -17,6 +17,7 @@ class CreateReadingQuestionsTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('question_group_id')->unsigned()->nullable();
             $table->string('question_content');
+            $table->string('question_instruction')->nullable();
             $table->string('question_image')->nullable();
             $table->timestamps();
         });

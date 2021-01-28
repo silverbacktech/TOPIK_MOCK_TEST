@@ -17,6 +17,7 @@ class CreateListeningGroupsTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('question_sets_id')->unsigned()->nullable();
             $table->string('group_text')->nullable();
+            $table->string('group_image')->nullable();
             $table->timestamps();
         });
 

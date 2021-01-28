@@ -64,6 +64,7 @@ class ReadingQuestionController extends Controller
                     'id' => $question_id,
                     'question_group_id'=>$groupId,
                     'question_content' => $question,
+                    'question_instruction'=>$data['question_instruction'][$i],
                     'question_image' => $name,
                 ]);
             }
@@ -72,6 +73,7 @@ class ReadingQuestionController extends Controller
                     'id' => $question_id,
                     'question_group_id'=>$groupId,
                     'question_content' => $question,
+                    'question_instruction'=>$data['question_instruction'][$i],
                     'question_image' => null,
                 ]);
             }

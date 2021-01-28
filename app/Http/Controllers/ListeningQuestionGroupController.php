@@ -19,7 +19,13 @@ class ListeningQuestionGroupController extends Controller
 
     	if($questionSet != null){
     		if($admin->role == "admin" && $admin->status){
-    			$groupText = $request->input('group_name');
+				$groupText = $request->input('group_name');
+				if(is_file($request->input('group_image'))){
+					// $group->group_image
+					$imageName = $request->input('group_image')->getClientOriginalName();
+					$request->input('group_image')->move(public_path().'/cover_img',$imageName);
+					$group->group_image = $imageName;
+				}
     			$group = new ListeningGroup();
     			$group->question_sets_id = $id;
     			$group->group_text = $groupText;
