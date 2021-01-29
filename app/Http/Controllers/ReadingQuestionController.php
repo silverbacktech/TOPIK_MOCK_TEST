@@ -59,13 +59,13 @@ class ReadingQuestionController extends Controller
 
             if($files[$i]){
                 $name=$files[$i]->getClientOriginalName();
+                
                 $fileName=pathinfo($name,PATHINFO_FILENAME);
-                $fileExtension=$name->getClientOriginalExtension();
+                $fileExtension=$files[$i]->getClientOriginalExtension();
                 $fileNameToStore=$fileName.'_'.time().'.'.$fileExtension;
+                // return response(['status'=>$fileNameToStore]);
+                $store=$files[$i]->move(public_path().'/cover_img',$fileNameToStore);
 
-                $store=$file->move(public_path().'\cover_img',$fileNameToStore);
-
-                $store=$files[$i]->move(public_path().'/cover_img',$name);
                 array_push($questions, [
                     'id' => $question_id,
                     'question_group_id'=>$groupId,
