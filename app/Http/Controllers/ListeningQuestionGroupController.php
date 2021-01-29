@@ -10,8 +10,8 @@ class ListeningQuestionGroupController extends Controller
 {
     public function store(Request $request,$id){
     	$addListeningGroup = $request->validate([
-    		'group_name' => 'required',
-    	]);
+			'group_name' => 'required',
+		]);
 
     	$admin = auth()->guard('api')->user();
 
@@ -19,14 +19,21 @@ class ListeningQuestionGroupController extends Controller
 
     	if($questionSet != null){
     		if($admin->role == "admin" && $admin->status){
+				$group = new ListeningGroup();
 				$groupText = $request->input('group_name');
-				if(is_file($request->input('group_image'))){
-					// $group->group_image
-					$imageName = $request->input('group_image')->getClientOriginalName();
-					$request->input('group_image')->move(public_path().'/cover_img',$imageName);
-					$group->group_image = $imageName;
+				if(is_file($request->file('group_image'))){
+					// $imageName = $request->file('group_image')->getClientOriginalName().time();
+					// $request->file('group_image')->move(public_path().'/cover_img',$imageName);
+					// $group->group_image = $imageName;
+
+					$name=$request->file('group_image')->getClientOriginalName().time();
+                	$fileName=pathinfo($name,PATHINFO_FILENAME);
+                	$fileExtension=$name->getClientOriginalExtension();
+                	$fileNameToStore=$fileName.'_'.time().'.'.$fileExtension;
+					$store=$file->move(public_path().'\cover_img',$fileNameToStore);
+					
+					$group->group_image = $fileNameToStore;
 				}
-    			$group = new ListeningGroup();
     			$group->question_sets_id = $id;
     			$group->group_text = $groupText;
     			$group->save();

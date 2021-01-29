@@ -49,14 +49,23 @@ class ListeningQuestionController extends Controller
 
         foreach ($data['audioFiles'] as $audio) {
             $name=$audio->getClientOriginalName();
-            $store=$audio->move(public_path().'/cover_img',$name);
+            $fileName=pathinfo($name,PATHINFO_FILENAME);
+            $fileExtension=$name->getClientOriginalExtension();
+            $fileNameToStore=$fileName.'_'.time().'.'.$fileExtension;
+            $store=$file->move(public_path().'\cover_img',$fileNameToStore);
 
             $imageName;
             $content;
 
             if(is_file($data['questionImage'][$i])){
+                // $imageName = $data['questionImage'][$i]->getClientOriginalName();
+                // $data['questionImage'][$i]->move(public_path().'/cover_img',$imageName);
+
                 $imageName = $data['questionImage'][$i]->getClientOriginalName();
-                $data['questionImage'][$i]->move(public_path().'/cover_img',$imageName);
+                $fileName=pathinfo($imageName,PATHINFO_FILENAME);
+                $fileExtension=$fileName->getClientOriginalExtension();
+                $fileNameToStore=$fileName.'_'.time().'.'.$fileExtension;
+                $data['questionImage'][$i]->move(public_path().'/cover_img',$fileNameToStore);
             }else{
                 $imageName = null;
             }
@@ -79,9 +88,16 @@ class ListeningQuestionController extends Controller
             for($j = 1; $j <= 4; $j ++) {
                 $option;
                 if(is_file($data['option'.$j][$i])){
-                    $name=$data['option'.$j][$i]->getClientOriginalName();
-                    $data['option'.$j][$i]->move(public_path().'/cover_img',$name);
-                    $option=$name;
+                    // $name=$data['option'.$j][$i]->getClientOriginalName();
+                    // $data['option'.$j][$i]->move(public_path().'/cover_img',$name);
+                    // $option=$name;
+
+                    $imageName = $data['option'.$j][$i]->getClientOriginalName();
+                    $fileName=pathinfo($imageName,PATHINFO_FILENAME);
+                    $fileExtension=$imageName->getClientOriginalExtension();
+                    $fileNameToStore=$fileName.'_'.time().'.'.$fileExtension;
+                    $data['questionImage'][$i]->move(public_path().'/cover_img',$fileNameToStore);
+                    $option=$fileNameToStore;
                 }
                 else{
                     $option=$data['option'.$j][$i];

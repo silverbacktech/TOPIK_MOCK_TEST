@@ -59,13 +59,19 @@ class ReadingQuestionController extends Controller
 
             if($files[$i]){
                 $name=$files[$i]->getClientOriginalName();
+                $fileName=pathinfo($name,PATHINFO_FILENAME);
+                $fileExtension=$name->getClientOriginalExtension();
+                $fileNameToStore=$fileName.'_'.time().'.'.$fileExtension;
+
+                $store=$file->move(public_path().'\cover_img',$fileNameToStore);
+
                 $store=$files[$i]->move(public_path().'/cover_img',$name);
                 array_push($questions, [
                     'id' => $question_id,
                     'question_group_id'=>$groupId,
                     'question_content' => $question,
-                    'question_instruction'=>$data['question_instruction'][$i],
-                    'question_image' => $name,
+                    // 'question_instruction'=>$data['question_instruction'][$i],
+                    'question_image' => $fileNameToStore,
                 ]);
             }
             else{
@@ -73,7 +79,7 @@ class ReadingQuestionController extends Controller
                     'id' => $question_id,
                     'question_group_id'=>$groupId,
                     'question_content' => $question,
-                    'question_instruction'=>$data['question_instruction'][$i],
+                    // 'question_instruction'=>$data['question_instruction'][$i],
                     'question_image' => null,
                 ]);
             }
