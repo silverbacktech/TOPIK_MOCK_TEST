@@ -64,7 +64,7 @@ class ReadingQuestionController extends Controller
                 $fileExtension=$files[$i]->getClientOriginalExtension();
                 $fileNameToStore=$fileName.'_'.time().'.'.$fileExtension;
                 // return response(['status'=>$fileNameToStore]);
-                $store=$files[$i]->move(public_path().'/cover_img',$fileNameToStore);
+                $store=$files[$i]->move(public_path().'\cover_img',$fileNameToStore);
 
                 array_push($questions, [
                     'id' => $question_id,

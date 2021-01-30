@@ -23,7 +23,7 @@ class ListeningQuestionGroupController extends Controller
 				$groupText = $request->input('group_name');
 				if(is_file($request->file('group_image'))){
 					// $imageName = $request->file('group_image')->getClientOriginalName().time();
-					// $request->file('group_image')->move(public_path().'/cover_img',$imageName);
+					// $request->file('group_image')->move(public_path().'\cover_img',$imageName);
 					// $group->group_image = $imageName;
 
 					$name=$request->file('group_image')->getClientOriginalName().time();
