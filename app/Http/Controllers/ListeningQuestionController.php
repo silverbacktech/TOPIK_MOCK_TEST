@@ -49,10 +49,12 @@ class ListeningQuestionController extends Controller
 
         foreach ($data['audioFiles'] as $audio) {
             $name=$audio->getClientOriginalName();
+            
             $fileName=pathinfo($name,PATHINFO_FILENAME);
-            $fileExtension=$name->getClientOriginalExtension();
+            $fileExtension=$audio->getClientOriginalExtension();
             $fileNameToStore=$fileName.'_'.time().'.'.$fileExtension;
-            $store=$file->move(public_path().'\cover_img',$fileNameToStore);
+            // return response(['status'=>$fileNameToStore]);
+            $store=$audio->move(public_path().'/cover_img',$fileNameToStore);
 
             $imageName;
             $content;
@@ -63,7 +65,7 @@ class ListeningQuestionController extends Controller
 
                 $imageName = $data['questionImage'][$i]->getClientOriginalName();
                 $fileName=pathinfo($imageName,PATHINFO_FILENAME);
-                $fileExtension=$fileName->getClientOriginalExtension();
+                $fileExtension=$data['questionImage'][$i]->getClientOriginalExtension();
                 $fileNameToStore=$fileName.'_'.time().'.'.$fileExtension;
                 $data['questionImage'][$i]->move(public_path().'/cover_img',$fileNameToStore);
             }else{
@@ -94,9 +96,9 @@ class ListeningQuestionController extends Controller
 
                     $imageName = $data['option'.$j][$i]->getClientOriginalName();
                     $fileName=pathinfo($imageName,PATHINFO_FILENAME);
-                    $fileExtension=$imageName->getClientOriginalExtension();
+                    $fileExtension=$data['option'.$j][$i]->getClientOriginalExtension();
                     $fileNameToStore=$fileName.'_'.time().'.'.$fileExtension;
-                    $data['questionImage'][$i]->move(public_path().'/cover_img',$fileNameToStore);
+                    $data['option'.$j][$i]->move(public_path().'/cover_img',$fileNameToStore);
                     $option=$fileNameToStore;
                 }
                 else{

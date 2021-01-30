@@ -70,7 +70,7 @@ class ReadingQuestionController extends Controller
                     'id' => $question_id,
                     'question_group_id'=>$groupId,
                     'question_content' => $question,
-                    // 'question_instruction'=>$data['question_instruction'][$i],
+                    'question_instruction'=>$data['question_instruction'][$i],
                     'question_image' => $fileNameToStore,
                 ]);
             }
@@ -79,7 +79,7 @@ class ReadingQuestionController extends Controller
                     'id' => $question_id,
                     'question_group_id'=>$groupId,
                     'question_content' => $question,
-                    // 'question_instruction'=>$data['question_instruction'][$i],
+                    'question_instruction'=>$data['question_instruction'][$i],
                     'question_image' => null,
                 ]);
             }

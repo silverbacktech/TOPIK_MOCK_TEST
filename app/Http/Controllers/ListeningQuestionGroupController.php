@@ -28,9 +28,9 @@ class ListeningQuestionGroupController extends Controller
 
 					$name=$request->file('group_image')->getClientOriginalName().time();
                 	$fileName=pathinfo($name,PATHINFO_FILENAME);
-                	$fileExtension=$name->getClientOriginalExtension();
+                	$fileExtension=$request->file('group_image')->getClientOriginalExtension();
                 	$fileNameToStore=$fileName.'_'.time().'.'.$fileExtension;
-					$store=$file->move(public_path().'\cover_img',$fileNameToStore);
+					$store=$request->file('group_image')->move(public_path().'\cover_img',$fileNameToStore);
 					
 					$group->group_image = $fileNameToStore;
 				}
