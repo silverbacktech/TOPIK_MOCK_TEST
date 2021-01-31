@@ -16,8 +16,8 @@ class CreateStudentResultsTable extends Migration
         Schema::create('student_results', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('student_id')->unsigned();
-            $table->bigInteger('question_set_id')->unsigned();
-            $table->string('scored_points');
+            $table->bigInteger('question_sets_id')->unsigned();
+            $table->string('scored_points')->nullable();
             $table->timestamps();
         });
 
@@ -26,7 +26,7 @@ class CreateStudentResultsTable extends Migration
         });
 
         Schema::table('student_results', function (Blueprint $table){
-            $table->foreign('question_set_id')->references('id')->on('question_sets')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('question_sets_id')->references('id')->on('question_sets')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

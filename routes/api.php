@@ -58,8 +58,8 @@ Route::get('/student-questions/{id}','StudentTestController@getAllQuestions')->m
 Route::post('/submitted-answers/{id}', 'ReadingSubmittedAnswersController@submitReadingAnswers')->middleware('auth:api');
 
 
-// Route for images
-// Route::post('/send-images','ReadingQuestionController@getImages');
+// Route for results
+Route::post('/get-details','StudentResultController@getAllResults')->middleware('auth:api');;
 
 // Route for listening question group
 Route::post('/add-listening-group/{id}','ListeningQuestionGroupController@store')->middleware('auth:api');

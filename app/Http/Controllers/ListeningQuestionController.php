@@ -56,7 +56,7 @@ class ListeningQuestionController extends Controller
             // return response(['status'=>$fileNameToStore]);
             $store=$audio->move(public_path().'\cover_img',$fileNameToStore);
 
-            $imageName;
+            $image;
             $content;
 
             if(is_file($data['questionImage'][$i])){
@@ -66,10 +66,11 @@ class ListeningQuestionController extends Controller
                 $imageName = $data['questionImage'][$i]->getClientOriginalName();
                 $fileName=pathinfo($imageName,PATHINFO_FILENAME);
                 $fileExtension=$data['questionImage'][$i]->getClientOriginalExtension();
-                $fileNameToStore=$fileName.'_'.time().'.'.$fileExtension;
-                $data['questionImage'][$i]->move(public_path().'\cover_img',$fileNameToStore);
+                $audioName=$fileName.'_'.time().'.'.$fileExtension;
+                $image = $fileNameToStore;
+                $data['questionImage'][$i]->move(public_path().'\cover_img',$audioName);
             }else{
-                $imageName = null;
+                $image = null;
             }
 
             if($data['questionContent'][$i]){
@@ -78,13 +79,13 @@ class ListeningQuestionController extends Controller
             else{
                 $content = null;
             }
-
+            // return response(['audio'=>$image,'image'=>$audioName]);
             array_push($audioFiles, [
                 'id' => $question_id,
                 'listening_group_id'=>$groupId,
-                'audio_file' => $name,
+                'audio_file' => $image,
                 'question_content'=>$content,
-                'image_file' => $imageName,
+                'image_file' => $audioName,
             ]);
             
             for($j = 1; $j <= 4; $j ++) {

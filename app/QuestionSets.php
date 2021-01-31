@@ -25,4 +25,12 @@ class QuestionSets extends Model
     public function listeningGroup(){
         return $this->hasMany('App\ListeningGroup');
     }
+
+    public function readingAnswers(){
+        return $this->hasMany('App\ReadingSubmittedAnswers');
+    }
+
+    public function studentResults(){
+        return $this->hasMany('App\StudentResults');
+    }
 }
