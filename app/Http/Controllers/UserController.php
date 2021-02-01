@@ -28,7 +28,7 @@ class UserController extends Controller
     		}
     	}
     	else{
-    		return response(['status'=>false,'message'=>'No such admin or student found. Please try again']);
+    		return response(['status'=>false,'message'=>'No such user found. Please try again']);
     	}
 
     }
