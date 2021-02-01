@@ -64,7 +64,7 @@ class ReadingSubmittedAnswersController extends Controller
                         'set_id'=>intval($data['set_id']),
                         "created_at" => Carbon::now(), # new \Datetime()
                         "updated_at" => Carbon::now(),  # new \Datetime()
-                        'student_result_id' => $studentResultId
+                        'student_results_id' => $studentResultId
                     ]);
                     $i++;
                     $submitted_answer_id ++;
@@ -97,7 +97,7 @@ class ReadingSubmittedAnswersController extends Controller
                         'set_id'=>intval($data['set_id']),
                         "created_at" => Carbon::now(), # new \Datetime()
                         "updated_at" => Carbon::now(),  # new \Datetime()
-                        'student_result_id' => $studentResultId
+                        'student_results_id' => $studentResultId
                     ]);
                     $j++;
                     $listening_submitted_answer_id ++;
