@@ -20,7 +20,7 @@ class CreateListeningSubmittedAnswersTable extends Migration
             $table->bigInteger('student_id')->unsigned();
             $table->bigInteger('answer_option_id')->unsigned()->nullable();
             $table->bigInteger('set_id')->unsigned();
-            $table->bigInteger('student_result_id')->unsigned()->nullable();
+            $table->bigInteger('student_results_id')->unsigned()->nullable();
             $table->timestamps();
         });
 
@@ -29,7 +29,7 @@ class CreateListeningSubmittedAnswersTable extends Migration
         });
 
         Schema::table('listening_submitted_answers', function( Blueprint $table){
-            $table->foreign('student_result_id')->references('id')->on('student_results')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('student_results_id')->references('id')->on('student_results')->onDelete('cascade')->onUpdate('cascade');
         });
 
         Schema::table('listening_submitted_answers', function( Blueprint $table){

@@ -59,7 +59,8 @@ Route::post('/submitted-answers/{id}', 'ReadingSubmittedAnswersController@submit
 
 
 // Route for results
-Route::post('/get-details','StudentResultController@getAllResults')->middleware('auth:api');;
+Route::get('/get-details','StudentResultController@getAllResults')->middleware('auth:api');
+Route::get('/individual-result/{id}','StudentResultController@individualResult')->middleware('auth:api');
 
 // Route for listening question group
 Route::post('/add-listening-group/{id}','ListeningQuestionGroupController@store')->middleware('auth:api');

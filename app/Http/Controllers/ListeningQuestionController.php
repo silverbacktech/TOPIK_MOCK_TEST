@@ -60,9 +60,6 @@ class ListeningQuestionController extends Controller
             $content;
 
             if(is_file($data['questionImage'][$i])){
-                // $imageName = $data['questionImage'][$i]->getClientOriginalName();
-                // $data['questionImage'][$i]->move(public_path().'\cover_img',$imageName);
-
                 $imageName = $data['questionImage'][$i]->getClientOriginalName();
                 $fileName=pathinfo($imageName,PATHINFO_FILENAME);
                 $fileExtension=$data['questionImage'][$i]->getClientOriginalExtension();
@@ -70,7 +67,8 @@ class ListeningQuestionController extends Controller
                 $image = $fileNameToStore;
                 $data['questionImage'][$i]->move(public_path().'\cover_img',$audioName);
             }else{
-                $image = null;
+                $audioName = null;
+                $image = $fileNameToStore;
             }
 
             if($data['questionContent'][$i]){
@@ -79,7 +77,7 @@ class ListeningQuestionController extends Controller
             else{
                 $content = null;
             }
-            // return response(['audio'=>$image,'image'=>$audioName]);
+
             array_push($audioFiles, [
                 'id' => $question_id,
                 'listening_group_id'=>$groupId,
