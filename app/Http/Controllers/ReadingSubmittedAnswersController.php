@@ -30,8 +30,8 @@ class ReadingSubmittedAnswersController extends Controller
                 $studentAnswer =[
                     'student_id'=>$student->id,
                     'question_sets_id'=>intval($data['set_id']),
-                    "created_at" => Carbon::now(), # new \Datetime()
-                    "updated_at" => Carbon::now(),  # new \Datetime()
+                    "created_at" => Carbon::now()->timezone('Asia/Kathmandu'), # new \Datetime()
+                    "updated_at" => Carbon::now()->timezone('Asia/Kathmandu'),  # new \Datetime()
                 ];
                 StudentResults::insert($studentAnswer);
 
@@ -62,8 +62,8 @@ class ReadingSubmittedAnswersController extends Controller
                         'student_id' =>$student->id,
                         'answer_option_id' => $answer_option_id,
                         'set_id'=>intval($data['set_id']),
-                        "created_at" => Carbon::now(), # new \Datetime()
-                        "updated_at" => Carbon::now(),  # new \Datetime()
+                        "created_at" => Carbon::now()->timezone('Asia/Kathmandu'), # new \Datetime()
+                        "updated_at" => Carbon::now()->timezone('Asia/Kathmandu'),  # new \Datetime()
                         'student_results_id' => $studentResultId
                     ]);
                     $i++;
@@ -95,8 +95,8 @@ class ReadingSubmittedAnswersController extends Controller
                         'student_id' =>$student->id,
                         'answer_option_id' => $answer_option_id,
                         'set_id'=>intval($data['set_id']),
-                        "created_at" => Carbon::now(), # new \Datetime()
-                        "updated_at" => Carbon::now(),  # new \Datetime()
+                        "created_at" => Carbon::now()->timezone('Asia/Kathmandu'), # new \Datetime()
+                        "updated_at" => Carbon::now()->timezone('Asia/Kathmandu'),  # new \Datetime()
                         'student_results_id' => $studentResultId
                     ]);
                     $j++;
