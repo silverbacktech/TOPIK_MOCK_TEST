@@ -49,6 +49,7 @@ Route::post('/delete-question-group/{id}','QuestionGroupController@destroy')->mi
 
 //Routes for creating questions options and answers based on question group
 Route::post('/add-questions/{id}','ReadingQuestionController@store')->middleware('auth:api');
+Route::get('/view-all-reading-questions/{id}','ReadingQuestionController@adminViewReading')->middleware('auth:api');
 
 //Routes for student test
 Route::get('/student-languages', 'StudentTestController@getLanguages')->middleware('auth:api');
@@ -70,5 +71,6 @@ Route::post('/edit-listening-group/{id}','ListeningQuestionGroupController@edit'
 
 // Route for listening question
 Route::post('/add-listening-question/{id}','ListeningQuestionController@store')->middleware('auth:api');
+Route::get('/view-all-listening-questions/{id}','ListeningQuestionController@adminViewListening')->middleware('auth:api');
 
 

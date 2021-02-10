@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\ListeningQuestions;
 use App\ListeningOptions;
 use App\ListeningAnswer;
+use App\QuestionSets;
 
 class ListeningQuestionController extends Controller
 {
@@ -133,6 +134,33 @@ class ListeningQuestionController extends Controller
     }
 
     public function adminViewListening($set_id){
-        
+        $admin = auth()->guard('api')->user();
+
+        if ($admin->role == 'admin' && $admin->status){
+            $set = QuestionSets::find($set_id);
+            if($set){
+                if($set->status){
+                    $listeningGroups = $set->listeningGroup;
+                    foreach($listeningGroups as $listeningGroup){
+                        $listeningQuestions = $listeningGroup->listeningQuestions;
+
+                        foreach($listeningQuestions as $listeningQuestion){
+                            $listeningQuestion->listeningOptions;
+                            $listeningQuestion->listeningAnswer;
+                        }
+                    }
+                    return response(['message'=>true,'listeningQuestions'=>$listeningGroups]);
+                }
+                else{
+                    return response(['status'=>false, 'message'=>'The Status is inactive']);
+                }
+            }
+            else{
+                return response(['status'=>false, 'message'=>'Sorry No Such Found']);
+            }
+        }
+        else{
+            return response(['status'=>true, 'message'=>'Unauthorized Access']);
+        }
     }
 }

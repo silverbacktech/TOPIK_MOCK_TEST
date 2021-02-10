@@ -189,4 +189,35 @@ class ReadingQuestionController extends Controller
             return response(['status'=>false, 'message'=>'Sorry Unauthorized access']);
         }
     }
+
+    public function adminViewReading($set_id){
+        $admin = auth()->guard('api')->user();
+
+        if ($admin->role == 'admin' && $admin->status){
+            $set = QuestionSets::find($set_id);
+            if($set){
+                if($set->status){
+                    $groups = $set->readingGroup;
+                    // return $groups;
+                    $groupsQuestions= [] ;
+                    foreach ($groups as $group){
+                        $questions = $group->readingQuestions;
+                        foreach($questions as $question){
+                            $question->readingOptions;
+                            $question->readingAnswer;
+                        }
+                    }
+                    return response(['message'=>true, 'readingQuestions'=>$groups]);
+                }
+                else{
+                    return response(['status'=>false, 'message'=>'The Status is inactive']);
+                }
+            }else{
+                return response(['status'=>false,'message'=>'No such set found']);
+            }
+        }
+        else{
+            return response(['status'=>false,'message'=>'Sorry, Unauthorized Access']);
+        }
+    }
 }
