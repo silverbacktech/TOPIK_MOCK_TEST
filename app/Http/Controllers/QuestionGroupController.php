@@ -35,6 +35,28 @@ class QuestionGroupController extends Controller
     	}
     }
 
+	public function edit($group_id){
+		$this->validate($request,[
+            'group_name'=>'required'
+        ]);
+		$admin = auth()->guard('api')->user();
+		if($admin->role=='admin' && $admin->status){
+			$group = QuestionGroup::find($group_id);
+			if($group){
+				$groupText=$request->input('group_name');
+	    		$group->group_text=$groupText;
+	    		$group->save();
+				return response(['status'=>true,'group'=>$group,'message'=>'Listening Group Edited Successfully']);
+			}
+			else{
+				return response(['status'=>false,'message'=>'Sorry No Such Group Found']);
+			}
+		}
+		else{
+			return response(['status'=>false,'message'=>"Unauthorized Access"]);
+		}
+	}
+
     public function destroy($id){
     	$admin=auth()->guard('api')->user();
 

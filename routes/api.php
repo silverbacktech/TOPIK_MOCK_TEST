@@ -41,8 +41,9 @@ Route::post('/set/edit/{id}','SetController@edit')->middleware('auth:api');
 Route::get('/set/show', 'SetController@show')->middleware('auth:api');
 Route::post('set/status/{id}','SetController@changeStatus')->middleware('auth:api');
 
-// Route for question group
+// Route for reading question group
 Route::post('/add-question-group/{id}','QuestionGroupController@store')->middleware('auth:api');
+Route::post('/edit-question-group/{id}','QuestionGroupController@edit')->middleware('auth:api');
 Route::post('/delete-question-group/{id}','QuestionGroupController@destroy')->middleware('auth:api');
 
 
@@ -65,6 +66,7 @@ Route::get('/individual-result/{id}','StudentResultController@individualResult')
 // Route for listening question group
 Route::post('/add-listening-group/{id}','ListeningQuestionGroupController@store')->middleware('auth:api');
 Route::post('/delete-listening-group/{id}','ListeningQuestionGroupController@destroy')->middleware('auth:api');
+Route::post('/edit-listening-group/{id}','ListeningQuestionGroupController@edit')->middleware('auth:api');
 
 // Route for listening question
 Route::post('/add-listening-question/{id}','ListeningQuestionController@store')->middleware('auth:api');

@@ -22,10 +22,6 @@ class ListeningQuestionGroupController extends Controller
 				$group = new ListeningGroup();
 				$groupText = $request->input('group_name');
 				if(is_file($request->file('group_image'))){
-					// $imageName = $request->file('group_image')->getClientOriginalName().time();
-					// $request->file('group_image')->move(public_path().'\cover_img',$imageName);
-					// $group->group_image = $imageName;
-
 					$name=$request->file('group_image')->getClientOriginalName().time();
                 	$fileName=pathinfo($name,PATHINFO_FILENAME);
                 	$fileExtension=$request->file('group_image')->getClientOriginalExtension();
@@ -47,6 +43,37 @@ class ListeningQuestionGroupController extends Controller
     		return response(['status'=>false,'message'=>"Please Select A Valid Question Set"]);
     	}
     }
+
+	public function edit(Request $request, $group_id){
+		$this->validate($request,[
+            'group_name'=>'required'
+        ]);
+		$admin = auth()->guard('api')->user();
+		if($admin->role=='admin' && $admin->status){
+			$group = ListeningGroup::find($group_id);
+			if($group){
+				$groupText = $request->input('group_name');
+				if(is_file($request->file('group_image'))){
+					$name=$request->file('group_image')->getClientOriginalName().time();
+                	$fileName=pathinfo($name,PATHINFO_FILENAME);
+                	$fileExtension=$request->file('group_image')->getClientOriginalExtension();
+                	$fileNameToStore=$fileName.'_'.time().'.'.$fileExtension;
+					$store=$request->file('group_image')->move(public_path().'\cover_img',$fileNameToStore);
+					
+					$group->group_image = $fileNameToStore;
+				}
+    			$group->group_text = $groupText;
+    			$group->save();
+				return response(['status'=>true,'group'=>$group,'message'=>'Listening Group Edited Successfully']);
+			}
+			else{
+				return response(['status'=>false,'message'=>'Sorry No Such Group Found']);
+			}
+		}
+		else{
+			return response(['status'=>false,'message'=>"Unauthorized Access"]);
+		}
+	}
 
 
     public function destroy($id){

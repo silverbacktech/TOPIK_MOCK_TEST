@@ -131,4 +131,8 @@ class ListeningQuestionController extends Controller
 
         return response(['status'=>true,'message'=>'The questions were inserted','values'=>['questions'=>$audioFiles,'options'=>$options,'answer'=>$answers]]);
     }
+
+    public function adminViewListening($set_id){
+        
+    }
 }
