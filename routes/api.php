@@ -47,9 +47,11 @@ Route::post('/edit-question-group/{id}','QuestionGroupController@edit')->middlew
 Route::post('/delete-question-group/{id}','QuestionGroupController@destroy')->middleware('auth:api');
 
 
-//Routes for creating questions options and answers based on question group
+//Routes for creating,viewing,editing and deleting questions options and answers based on question group
 Route::post('/add-questions/{id}','ReadingQuestionController@store')->middleware('auth:api');
 Route::get('/view-all-reading-questions/{id}','ReadingQuestionController@adminViewReading')->middleware('auth:api');
+Route::get('/individual-reading-question/{id}','ReadingQuestionController@viewIndividual')->middleware('auth:api');
+Route::post('/individual-reading-question-edit/{id}','ReadingQuestionController@editIndividual')->middleware('auth:api');
 
 //Routes for student test
 Route::get('/student-languages', 'StudentTestController@getLanguages')->middleware('auth:api');
@@ -72,5 +74,6 @@ Route::post('/edit-listening-group/{id}','ListeningQuestionGroupController@edit'
 // Route for listening question
 Route::post('/add-listening-question/{id}','ListeningQuestionController@store')->middleware('auth:api');
 Route::get('/view-all-listening-questions/{id}','ListeningQuestionController@adminViewListening')->middleware('auth:api');
-
+Route::get('/view-individual-listening-question/{id}','ListeningQuestionController@viewIndividual')->middleware('auth:api');
+Route::post('/individual-listening-question-edit/{id}','ListeningQuestionController@editIndividual')->middleware('auth:api');
 

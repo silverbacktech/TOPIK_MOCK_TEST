@@ -114,64 +114,6 @@ class ReadingQuestionController extends Controller
          return response(['status'=>true,'message'=>'The questions were inserted','values'=>['questions'=>$questions,'options'=>$options,'answer'=>$answers]]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    // public function show($id)
-    // {
-    //     //
-    // }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Request $request,$id)
-    {
-        $validated_data = $request->validate([
-            'question_content'=>'required',
-        ]);
-
-        $admin=auth()->guard('api')->user();
-        if ($admin->role == 'admin' && $admin->status){
-            $question = ReadingQuestions::find($id);
-            if(isset($question)){
-                $question->question_content = $request->input('question_content');
-                $question->save();
-                return response(['status'=>true, 'message'=>'Reading Question edited successfully', 'value'=>$question]);
-            }
-            else{
-                return response(['status'=>false, 'message'=>'Please select a valid question to edit']);
-            }
-        }
-        else{
-            return response(['status'=>false,'message'=>'Sorry Unauthorised access']);
-        }
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $admin = auth()->guard('api')->user();
@@ -218,6 +160,77 @@ class ReadingQuestionController extends Controller
         }
         else{
             return response(['status'=>false,'message'=>'Sorry, Unauthorized Access']);
+        }
+    }
+
+    public function viewIndividual($id){
+        $admin = auth()->guard('api')->user();
+        if($admin->role=='admin' && $admin->status){
+            $question = ReadingQuestions::find($id);
+            if($question){
+                $question->readingOptions;
+                $question->readingAnswer;
+                return response(['status'=>true,'question'=>$question]);
+            }
+            else{
+                return response(['status'=>false,'message'=>'Sorry, Question Not Found']);
+            }
+        }
+        else{
+            return response(['status'=>false,'message'=>'Unauthorized Access']);
+        }
+    }
+
+    public function editIndividual(Request $request , $id){
+        $admin = auth()->guard('api')->user();
+        $data = $request->all();
+        if($admin->role=='admin' && $admin->status){
+            $questionToEdit = ReadingQuestions::find($id);
+
+            if(isset($data['question_instruction'])){
+                $questionToEdit->question_instruction = $data['question_instruction'];
+            }
+            
+            if(isset($data['question_content'])){
+                $questionToEdit->question_content = $data['question_content'];
+            }
+            
+            if(isset($data['questionfile'])){
+                $file = $data['questionfile'];
+                if(is_file($file)){
+                    $name=$file->getClientOriginalName();
+                    $fileName=pathinfo($name,PATHINFO_FILENAME);
+                    $fileExtension=$file->getClientOriginalExtension();
+                    $fileNameToStore=$fileName.'_'.time().'.'.$fileExtension;
+                    // return response(['status'=>$fileNameToStore]);
+                    $store=$file->move(public_path().'\cover_img',$fileNameToStore);
+                    $questionToEdit->question_image = $fileNameToStore;
+                }
+            }
+            $options=$questionToEdit->readingOptions;
+            $i=1;
+            foreach($options as $option){
+                if(isset($data['option'.$i])){
+                    $option->reading_options_content = $data['option'.$i];
+                    $option->save();
+                }
+                $i++;
+            }
+            $answer = $questionToEdit->readingAnswer;
+            if(isset($data['option_id'])){
+                $answer->reading_options_id = intval($data['option_id']);
+            }
+            
+            if(isset($data['answers'])){
+                $answer->option_number = intval($data['answers']);
+            }
+            $answer->save();
+            
+            $questionToEdit->save();
+            return response(['status'=>true,'message'=>'Question Updated','question'=>$questionToEdit]);
+        }
+        else{
+            return response(['status'=>false, 'message'=>'Unauthorized Access']);
         }
     }
 }

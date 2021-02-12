@@ -163,4 +163,98 @@ class ListeningQuestionController extends Controller
             return response(['status'=>true, 'message'=>'Unauthorized Access']);
         }
     }
+
+    public function viewIndividual($id){
+        $admin = auth()->guard('api')->user();
+        if($admin->role=='admin' && $admin->status){
+            $question = ListeningQuestions::find($id);
+            if($question){
+                $question->listeningOptions;
+                $question->listeningAnswer;
+                return response(['status'=>true,'question'=>$question]);
+            }
+            else{
+                return response(['status'=>false,'message'=>'Sorry, Question Not Found']);
+            }
+        }
+        else{
+            return response(['status'=>false,'message'=>'Unauthorized Access']);
+        }
+    }
+
+    public function editIndividual(Request $request, $id){
+        $data = $request->all();
+        $admin = auth()->guard('api')->user();
+        if($admin->role=='admin' && $admin->status){
+            $questionToEdit = ListeningQuestions::find($id);
+            
+            if($questionToEdit){
+                $questionToEdit->question_content = $data['question_content'];
+
+                if(isset($data['audioFile'])){
+                    if(is_file($data['audioFile'])){
+                        $audio = $data['audioFile'];
+                        $name=$audio->getClientOriginalName();
+                        
+                        $fileName=pathinfo($name,PATHINFO_FILENAME);
+                        $fileExtension=$audio->getClientOriginalExtension();
+                        $fileNameToStore=$fileName.'_'.time().'.'.$fileExtension;
+                        // return response(['status'=>$fileNameToStore]);
+                        $store=$audio->move(public_path().'\cover_img',$fileNameToStore);
+                        $questionToEdit->audio_file = $fileNameToStore;
+                    }
+                    else{
+                        return response(['status'=>false, 'message'=>'Please Add AudioFile']);
+                    }
+                }
+
+                if(isset($data['questionImage'])){
+                    if(is_file($data['questionImage'])){
+                        $imageName = $data['questionImage']->getClientOriginalName();
+                        $fileName=pathinfo($imageName,PATHINFO_FILENAME);
+                        $fileExtension=$data['questionImage']->getClientOriginalExtension();
+                        $fileName=$fileName.'_'.time().'.'.$fileExtension;
+                        $data['questionImage']->move(public_path().'\cover_img',$fileName);
+                        $questionToEdit->image_file = $fileName;
+                    }
+                }
+            }
+            $options = $questionToEdit->listeningOptions;
+            $j = 1;
+            foreach($options as $option){
+                if(isset($data['option'.$j])){
+                    if(is_file($data['option'.$j])){
+                        $imageName = $data['option'.$j]->getClientOriginalName();
+                        $fileName=pathinfo($imageName,PATHINFO_FILENAME);
+                        $fileExtension=$data['option'.$j]->getClientOriginalExtension();
+                        $fileNameToStore=$fileName.'_'.time().'.'.$fileExtension;
+                        $data['option'.$j]->move(public_path().'\cover_img',$fileNameToStore);
+                        $option->option_content=$fileNameToStore;
+                        $option->save();
+                    }
+                    else{
+                        $option->option_content=$data['option'.$j][$i];
+                        $option->save();
+                    }
+                }
+                $j++;
+            }
+            
+            $answer = $questionToEdit->listeningAnswer;
+            
+            if(isset($data['option_id'])){
+                $answer->listening_options_id = intval($data['option_id']);
+            }
+            
+            if(isset($data['answers'])){
+                $answer->option_number = intval($data['answers']);
+            }
+            $answer->save();
+
+            return response(['status'=>true,'message'=>'Question Updated','question'=>$questionToEdit]);
+        }
+        else{
+            return response(['status'=>false,'message'=>'Unauthorized Access']);
+        }
+    }
 }
