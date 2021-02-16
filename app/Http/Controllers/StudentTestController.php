@@ -107,4 +107,9 @@ class StudentTestController extends Controller
             return response([ 'status'=> false, 'message'=>'Sorry Only students are allowed to give exam']);
         }
     }
+    public function getAudio($path){
+        $response = new BinaryFileResponse($path);
+		// BinaryFileResponse::trustXSendfileTypeHeader(); 
+		// return $response; 
+    }
 }

@@ -233,7 +233,7 @@ class ListeningQuestionController extends Controller
                         $option->save();
                     }
                     else{
-                        $option->option_content=$data['option'.$j][$i];
+                        $option->option_content=$data['option'.$j];
                         $option->save();
                     }
                 }

@@ -60,6 +60,7 @@ Route::get('/student-groups/{id}', 'StudentTestController@getGroups')->middlewar
 Route::get('/student-questions/{id}','StudentTestController@getAllQuestions')->middleware('auth:api');
 //Route for submitting answers
 Route::post('/submitted-answers/{id}', 'ReadingSubmittedAnswersController@submitReadingAnswers')->middleware('auth:api');
+Route::get('/audio-stream/{path}','StudentTestController@getAudio');
 
 
 // Route for results
