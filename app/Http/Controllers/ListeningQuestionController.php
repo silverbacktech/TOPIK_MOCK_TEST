@@ -184,6 +184,7 @@ class ListeningQuestionController extends Controller
 
     public function editIndividual(Request $request, $id){
         $data = $request->all();
+        return $data;
         $admin = auth()->guard('api')->user();
         if($admin->role=='admin' && $admin->status){
             $questionToEdit = ListeningQuestions::find($id);
@@ -202,9 +203,6 @@ class ListeningQuestionController extends Controller
                         // return response(['status'=>$fileNameToStore]);
                         $store=$audio->move(public_path().'\cover_img',$fileNameToStore);
                         $questionToEdit->audio_file = $fileNameToStore;
-                    }
-                    else{
-                        return response(['status'=>false, 'message'=>'Please Add AudioFile']);
                     }
                 }
 
@@ -250,6 +248,7 @@ class ListeningQuestionController extends Controller
                 $answer->option_number = intval($data['answers']);
             }
             $answer->save();
+            $questionToEdit->save();
 
             return response(['status'=>true,'message'=>'Question Updated','question'=>$questionToEdit]);
         }

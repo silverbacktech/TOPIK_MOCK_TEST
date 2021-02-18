@@ -9,7 +9,8 @@ use App\QuestionGroup;
 use App\ReadingQuestions;
 use App\ReadingOptions;
 use App\ReadingAnswer;
-
+use File;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
  
 class StudentTestController extends Controller
@@ -107,9 +108,13 @@ class StudentTestController extends Controller
             return response([ 'status'=> false, 'message'=>'Sorry Only students are allowed to give exam']);
         }
     }
-    public function getAudio($path){
+    public function getAudio($audioFile){
+        $path = public_path().(DIRECTORY_SEPARATOR."cover_img".DIRECTORY_SEPARATOR.$audioFile);
+        // return response(['message'=>true,'path'=>$path]);
+        
         $response = new BinaryFileResponse($path);
-		// BinaryFileResponse::trustXSendfileTypeHeader(); 
-		// return $response; 
+        BinaryFileResponse::trustXSendfileTypeHeader();
+        
+        return $response;
     }
 }
