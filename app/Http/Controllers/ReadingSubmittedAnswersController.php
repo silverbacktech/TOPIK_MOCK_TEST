@@ -31,6 +31,7 @@ class ReadingSubmittedAnswersController extends Controller
                     'student_id'=>$student->id,
                     'question_sets_id'=>intval($data['set_id']),
                     "created_at" => Carbon::now()->timezone('Asia/Kathmandu'), # new \Datetime()
+                    "scored_points"=>$data['scored_points'],
                     "updated_at" => Carbon::now()->timezone('Asia/Kathmandu'),  # new \Datetime()
                 ];
                 StudentResults::insert($studentAnswer);

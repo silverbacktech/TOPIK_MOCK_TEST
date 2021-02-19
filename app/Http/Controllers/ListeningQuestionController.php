@@ -229,13 +229,15 @@ class ListeningQuestionController extends Controller
             foreach($options as $option){
                 if(isset($data['option'.$j])){
                     if(is_file($data['option'.$j])){
-                        $imageName = $data['option'.$j]->getClientOriginalName();
-                        $fileName=pathinfo($imageName,PATHINFO_FILENAME);
-                        $fileExtension=$data['option'.$j]->getClientOriginalExtension();
-                        $fileNameToStore=$fileName.'_'.time().'.'.$fileExtension;
-                        $data['option'.$j]->move(public_path().'\cover_img',$fileNameToStore);
-                        $option->option_content=$fileNameToStore;
-                        $option->save();
+                        if(is_file($option)){
+                            $imageName = $data['option'.$j]->getClientOriginalName();
+                            $fileName=pathinfo($imageName,PATHINFO_FILENAME);
+                            $fileExtension=$data['option'.$j]->getClientOriginalExtension();
+                            $fileNameToStore=$fileName.'_'.time().'.'.$fileExtension;
+                            $data['option'.$j]->move(public_path().'\cover_img',$fileNameToStore);
+                            $option->option_content=$fileNameToStore;
+                            $option->save();
+                        }
                     }
                     else{
                         $option->option_content=$data['option'.$j];
