@@ -227,9 +227,9 @@ class ListeningQuestionController extends Controller
             $options = $questionToEdit->listeningOptions;
             $j = 1;
             foreach($options as $option){
-                if(isset($data['option'.$j])){
-                    if(is_file($data['option'.$j])){
-                        if(is_file($option)){
+                if(isset($data['option'.$j]) && $data['option'.$j!="undefined"]){
+                    if(is_file($option)){
+                        if(is_file($data['option'.$j])){
                             $imageName = $data['option'.$j]->getClientOriginalName();
                             $fileName=pathinfo($imageName,PATHINFO_FILENAME);
                             $fileExtension=$data['option'.$j]->getClientOriginalExtension();
