@@ -85,6 +85,9 @@ class ReadingQuestionController extends Controller
             }
 
             for($j = 1; $j <= 4; $j ++) {
+                if(!isset($data['option'.$j][$i])){
+                    return response(['status'=>false,'message'=>'Please Attach Option Content']);
+                }
                 array_push($options, [
                     'id' => $option_id,
                     'reading_questions_id' => $question_id,
@@ -95,6 +98,9 @@ class ReadingQuestionController extends Controller
             }
 
             // return $images;
+            if(!isset($data['answers'][$i])){
+                return response(['status'=>false,'message'=>'Please Attach Answers']);
+            }
             array_push($answers, [
                 'id' => $answer_id,
                 'reading_questions_id'=>$question_id,

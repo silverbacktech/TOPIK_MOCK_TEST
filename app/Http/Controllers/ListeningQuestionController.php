@@ -12,7 +12,8 @@ class ListeningQuestionController extends Controller
 {
     public function store(Request $request, $groupId){
         $data=$request->all();
-        // return response(['data'=>$data]);
+        // return $data;
+
         $i = 0;
         $audioFiles=[];
         $options=[];
@@ -49,6 +50,10 @@ class ListeningQuestionController extends Controller
 
 
         foreach ($data['audioFiles'] as $audio) {
+            if(!isset($audio)){
+                return response(['status'=>false,'message'=>'Please Attach Audio File In Question at least one question']);
+            }
+
             $name=$audio->getClientOriginalName();
             
             $fileName=pathinfo($name,PATHINFO_FILENAME);
@@ -113,7 +118,9 @@ class ListeningQuestionController extends Controller
                 ]);
                 $option_id ++;
             }
-
+            if(!isset($data['answers'][$i])){
+                return response(['status'=>false,'message'=>'Please Attach Answers']);
+            }
             array_push($answers, [
                 'id' => $answer_id,
                 'listening_questions_id'=>$question_id,
@@ -184,7 +191,7 @@ class ListeningQuestionController extends Controller
 
     public function editIndividual(Request $request, $id){
         $data = $request->all();
-        return $data;
+        // return $data;
         $admin = auth()->guard('api')->user();
         if($admin->role=='admin' && $admin->status){
             $questionToEdit = ListeningQuestions::find($id);
