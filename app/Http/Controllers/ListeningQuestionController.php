@@ -226,8 +226,8 @@ class ListeningQuestionController extends Controller
             }
             $options = $questionToEdit->listeningOptions;
             $j = 1;
-            if($data['option'.$j] != 'undefined'){
-                foreach($options as $option){
+            foreach($options as $option){
+                if(($data['option'.$j]) != 'undefined'){
                     if(isset($data['option'.$j])){
                         // if(is_file($option)){
                             if(is_file($data['option'.$j])){
