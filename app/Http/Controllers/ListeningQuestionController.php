@@ -226,25 +226,27 @@ class ListeningQuestionController extends Controller
             }
             $options = $questionToEdit->listeningOptions;
             $j = 1;
-            foreach($options as $option){
-                if(isset($data['option'.$j]) && $data['option'.$j!="undefined"]){
-                    if(is_file($option)){
-                        if(is_file($data['option'.$j])){
-                            $imageName = $data['option'.$j]->getClientOriginalName();
-                            $fileName=pathinfo($imageName,PATHINFO_FILENAME);
-                            $fileExtension=$data['option'.$j]->getClientOriginalExtension();
-                            $fileNameToStore=$fileName.'_'.time().'.'.$fileExtension;
-                            $data['option'.$j]->move(public_path().'\cover_img',$fileNameToStore);
-                            $option->option_content=$fileNameToStore;
+            if($data['option'.$j] != 'undefined'){
+                foreach($options as $option){
+                    if(isset($data['option'.$j])){
+                        // if(is_file($option)){
+                            if(is_file($data['option'.$j])){
+                                $imageName = $data['option'.$j]->getClientOriginalName();
+                                $fileName=pathinfo($imageName,PATHINFO_FILENAME);
+                                $fileExtension=$data['option'.$j]->getClientOriginalExtension();
+                                $fileNameToStore=$fileName.'_'.time().'.'.$fileExtension;
+                                $data['option'.$j]->move(public_path().'\cover_img',$fileNameToStore);
+                                $option->option_content=$fileNameToStore;
+                                $option->save();
+                            }
+                        // }
+                        else{
+                            $option->option_content=$data['option'.$j];
                             $option->save();
                         }
                     }
-                    else{
-                        $option->option_content=$data['option'.$j];
-                        $option->save();
-                    }
+                    $j++;
                 }
-                $j++;
             }
             
             $answer = $questionToEdit->listeningAnswer;
