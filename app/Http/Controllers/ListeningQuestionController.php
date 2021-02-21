@@ -245,8 +245,8 @@ class ListeningQuestionController extends Controller
                             $option->save();
                         }
                     }
-                    $j++;
                 }
+                $j++;
             }
             
             $answer = $questionToEdit->listeningAnswer;
