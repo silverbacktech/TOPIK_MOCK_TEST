@@ -119,7 +119,7 @@ class StudentTestController extends Controller
     }
 
     public function testAudio($audioFile){
-        $path = public_path().(DIRECTORY_SEPARATOR."cover_img".DIRECTORY_SEPARATOR.'test_audio.mp3');
+        $path = public_path().(DIRECTORY_SEPARATOR."cover_img".DIRECTORY_SEPARATOR.$audioFile);
         $response = new BinaryFileResponse($path);
         BinaryFileResponse::trustXSendfileTypeHeader();
 
