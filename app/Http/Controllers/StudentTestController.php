@@ -117,4 +117,12 @@ class StudentTestController extends Controller
         
         return $response;
     }
+
+    public function testAudio($audioFile){
+        $path = public_path().(DIRECTORY_SEPARATOR."cover_img".DIRECTORY_SEPARATOR.'test_audio.mp3');
+        $response = new BinaryFileResponse($path);
+        BinaryFileResponse::trustXSendfileTypeHeader();
+
+        return $response;
+    }
 }
