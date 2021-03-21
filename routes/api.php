@@ -61,7 +61,7 @@ Route::get('/student-questions/{id}','StudentTestController@getAllQuestions')->m
 //Route for submitting answers
 Route::post('/submitted-answers/{id}', 'ReadingSubmittedAnswersController@submitReadingAnswers')->middleware('auth:api');
 Route::get('/audio-stream/{path}','StudentTestController@getAudio');
-Route::get('/test-audio','StudentTestController@testAudio');
+Route::get('/test-audio/{audioFile}','StudentTestController@testAudio');
 
 
 // Route for results
