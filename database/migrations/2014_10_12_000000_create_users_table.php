@@ -17,11 +17,25 @@ class CreateUsersTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->boolean('status')->nullable();
+            $table->string('role');
+            $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
+
+        $password=bcrypt('password');
+        DB::table('users')->insert(
+            array(
+                'name'=>'admin',
+                'email' => 'name@domain.com',
+                'password'=>$password,
+                'role'=>'admin',
+                'status'=>true
+            )
+        );
+
     }
 
     /**

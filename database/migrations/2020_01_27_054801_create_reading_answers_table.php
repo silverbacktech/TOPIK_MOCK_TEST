@@ -15,9 +15,14 @@ class CreateReadingAnswersTable extends Migration
     {
         Schema::create('reading_answers', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger('reading_questions_id')->unsigned();
             $table->bigInteger('reading_options_id')->unsigned();
-            $table->string('reading_answers_content');
+            $table->integer('option_number');
             $table->timestamps();
+        });
+
+        Schema::table('reading_answers',function(Blueprint $table){
+            $table->foreign('reading_questions_id')->references('id')->on('reading_questions')->onDelete('cascade')->onUpdate('cascade');
         });
 
         Schema::table('reading_answers', function (Blueprint $table){
